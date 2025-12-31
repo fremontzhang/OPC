@@ -1,0 +1,80 @@
+<!-- 刷新提示页面 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>请刷新</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .steps {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .step {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>🔄 需要清除缓存</h1>
+        <p>检测到您的浏览器可能加载了旧版本的代码</p>
+
+        <div class="steps">
+            <div class="step"><strong>方法1：</strong> 按 <code>Ctrl + Shift + Delete</code></div>
+            <div class="step"><strong>方法2：</strong> 按 <code>F12</code> → 右键刷新按钮 → 选择"清空缓存并硬性重新加载"</div>
+            <div class="step"><strong>方法3：</strong> 点击下方按钮自动跳转（已禁用缓存）</div>
+        </div>
+
+        <button onclick="window.location.href='dashboard.html?nocache=' + Date.now()">
+            立即跳转到最新版本
+        </button>
+    </div>
+</body>
+
+</html>

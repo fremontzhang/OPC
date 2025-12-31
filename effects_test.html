@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特效测试页面</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 粒子动画 */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        .particle {
+            position: fixed;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 玻璃态效果 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px 0 rgba(31, 38, 135, 0.2);
+        }
+
+        /* 渐变背景 */
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .animated-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 发光效果 */
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+            }
+        }
+
+        .glow-effect {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        /* 渐变文字 */
+        @keyframes gradientText {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientText 3s ease infinite;
+        }
+
+        /* 涟漪效果 */
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.6);
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-8">
+    <!-- 动画背景 -->
+    <div class="animated-bg"></div>
+
+    <!-- 粒子容器 -->
+    <div id="particles"></div>
+
+    <!-- 内容 -->
+    <div class="relative z-10 max-w-4xl w-full space-y-8">
+        <div class="text-center mb-12">
+            <h1 class="text-6xl font-bold gradient-text mb-4">炫酷特效测试</h1>
+            <p class="text-slate-600 text-lg">所有特效都已成功加载并运行</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 卡片 1 -->
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-blue-500 rounded-full mx-auto mb-4 glow-effect"></div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2">玻璃态效果</h3>
+                <p class="text-sm text-slate-600">悬停查看提升效果</p>
+            </div>
+
+            <!-- 卡片 2 -->
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-purple-500 rounded-full mx-auto mb-4 glow-effect"></div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2">发光动画</h3>
+                <p class="text-sm text-slate-600">持续脉冲发光</p>
+            </div>
+
+            <!-- 卡片 3 -->
+            <div class="glass-card rounded-2xl p-6 text-center">
+                <div class="w-16 h-16 bg-pink-500 rounded-full mx-auto mb-4 glow-effect"></div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2">浮动粒子</h3>
+                <p class="text-sm text-slate-600">背景粒子漂浮</p>
+            </div>
+        </div>
+
+        <!-- 按钮测试 -->
+        <div class="flex justify-center gap-4">
+            <button id="rippleBtn"
+                class="relative overflow-hidden px-8 py-4 bg-blue-600 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+                点击查看涟漪效果
+            </button>
+        </div>
+
+        <!-- 状态指示 -->
+        <div class="glass-card rounded-2xl p-6 text-center">
+            <div class="flex items-center justify-center gap-2 mb-2">
+                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse glow-effect"></div>
+                <span class="text-green-600 font-bold">所有特效正常运行</span>
+            </div>
+            <p class="text-sm text-slate-600">如果你能看到漂浮的粒子和流动的渐变文字，说明效果已成功加载！</p>
+        </div>
+    </div>
+
+    <script>
+        // 创建粒子
+        window.addEventListener('DOMContentLoaded', () => {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const size = Math.random() * 60 + 20;
+                const startX = Math.random() * window.innerWidth;
+                const startY = Math.random() * window.innerHeight;
+                const duration = Math.random() * 10 + 5;
+                const delay = Math.random() * 5;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${startX}px`;
+                particle.style.top = `${startY}px`;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+
+                particlesContainer.appendChild(particle);
+            }
+        });
+
+        // 涟漪效果
+        document.getElementById('rippleBtn').addEventListener('click', function (e) {
+            const button = e.currentTarget;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            ripple.classList.add('ripple');
+
+            button.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    </script>
+</body>
+
+</html>

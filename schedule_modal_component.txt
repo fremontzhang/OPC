@@ -1,0 +1,197 @@
+        // 日期时间选择器模态组件
+        const ScheduleModal = ({ onClose, onConfirm }) => {
+            const [selectedDate, setSelectedDate] = useState(new Date());
+            const [currentMonth, setCurrentMonth] = useState(new Date());
+            
+            // 格式化日期时间
+            const formatDateTime = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${year}/${month}/${day} ${hours}:${minutes}`;
+            };
+
+            // 获取当月的所有日期
+            const getDaysInMonth = (date) => {
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDayOfWeek = firstDay.getDay();
+                
+                const days = [];
+                // 填充前面的空白
+                for (let i = 0; i < startingDayOfWeek; i++) {
+                    days.push(null);
+                }
+                // 填充实际日期
+                for (let i = 1; i <= daysInMonth; i++) {
+                    days.push(new Date(year, month, i));
+                }
+                return days;
+            };
+
+            const days = getDaysInMonth(currentMonth);
+            const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+
+            const isSameDay = (date1, date2) => {
+                return date1.getDate() === date2.getDate() &&
+                       date1.getMonth() === date2.getMonth() &&
+                       date1.getFullYear() === date2.getFullYear();
+            };
+
+            const prevMonth = () => {
+                setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+            };
+
+            const nextMonth = () => {
+                setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+            };
+
+            const handleTimeChange = (field, value) => {
+                const newDate = new Date(selectedDate);
+                if (field === 'hours') {
+                    newDate.setHours(parseInt(value) || 0);
+                } else if (field === 'minutes') {
+                    newDate.setMinutes(parseInt(value) || 0);
+                }
+                setSelectedDate(newDate);
+            };
+
+            return (
+                <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-white/80 backdrop-blur-md" onClick={onClose}></div>
+                    <div className="bg-white rounded-[32px] w-full max-w-md shadow-2xl relative animate-in zoom-in duration-300 border border-slate-200">
+                        {/* Header */}
+                        <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                                    <Icon name="clock" size={20} className="text-blue-600" />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-bold text-slate-900">设定发布时间</h3>
+                                    <p className="text-xs text-slate-500">{formatDateTime(selectedDate)}</p>
+                                </div>
+                            </div>
+                            <button onClick={onClose} className="text-slate-400 hover:text-slate-700 transition-colors">
+                                <Icon name="plus" className="rotate-45" size={24} />
+                            </button>
+                        </div>
+
+                        {/* Calendar */}
+                        <div className="p-6">
+                            {/* Month Navigation */}
+                            <div className="flex items-center justify-between mb-4">
+                                <button 
+                                    onClick={prevMonth}
+                                    className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                                >
+                                    <Icon name="chevron-left" size={20} className="text-slate-600" />
+                                </button>
+                                <h4 className="text-sm font-bold text-slate-900">
+                                    {currentMonth.getFullYear()}年{currentMonth.getMonth() + 1}月
+                                </h4>
+                                <button 
+                                    onClick={nextMonth}
+                                    className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                                >
+                                    <Icon name="chevron-right" size={20} className="text-slate-600" />
+                                </button>
+                            </div>
+
+                            {/* Week Days Header */}
+                            <div className="grid grid-cols-7 gap-1 mb-2">
+                                {weekDays.map(day => (
+                                    <div key={day} className="text-center text-xs font-bold text-slate-400 py-2">
+                                        {day}
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Calendar Days */}
+                            <div className="grid grid-cols-7 gap-1">
+                                {days.map((day, index) => {
+                                    if (!day) {
+                                        return <div key={index} className="aspect-square"></div>;
+                                    }
+                                    const isSelected = isSameDay(day, selectedDate);
+                                    const isToday = isSameDay(day, new Date());
+                                    return (
+                                        <button
+                                            key={index}
+                                            onClick={() => {
+                                                const newDate = new Date(selectedDate);
+                                                newDate.setFullYear(day.getFullYear());
+                                                newDate.setMonth(day.getMonth());
+                                                newDate.setDate(day.getDate());
+                                                setSelectedDate(newDate);
+                                            }}
+                                            className={`aspect-square rounded-lg text-sm font-medium transition-all ${
+                                                isSelected
+                                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                                                    : isToday
+                                                    ? 'bg-blue-50 text-blue-600 font-bold'
+                                                    : 'hover:bg-slate-100 text-slate-700'
+                                            }`}
+                                        >
+                                            {day.getDate()}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Time Picker */}
+                            <div className="mt-6 pt-6 border-t border-slate-100">
+                                <label className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 block">
+                                    选择时间
+                                </label>
+                                <div className="flex items-center gap-3">
+                                    <div className="flex-1">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max="23"
+                                            value={selectedDate.getHours()}
+                                            onChange={(e) => handleTimeChange('hours', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-center text-lg font-bold text-slate-900 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                                        />
+                                        <p className="text-xs text-slate-400 text-center mt-1 font-medium">时</p>
+                                    </div>
+                                    <span className="text-2xl font-bold text-slate-300">:</span>
+                                    <div className="flex-1">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max="59"
+                                            value={selectedDate.getMinutes()}
+                                            onChange={(e) => handleTimeChange('minutes', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-center text-lg font-bold text-slate-900 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                                        />
+                                        <p className="text-xs text-slate-400 text-center mt-1 font-medium">分</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="p-6 border-t border-slate-100 flex gap-3">
+                            <button
+                                onClick={onClose}
+                                className="flex-1 py-3 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 transition-all"
+                            >
+                                取消
+                            </button>
+                            <button
+                                onClick={() => onConfirm(selectedDate)}
+                                className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all"
+                            >
+                                确认预约
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };

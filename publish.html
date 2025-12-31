@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发帖子 - SocialSync</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+            background: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 100%);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <div class="flex w-full h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-900 text-white p-6 flex flex-col">
+            <div class="flex items-center gap-3 mb-10">
+                <div
+                    class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="zap" class="w-6 h-6"></i>
+                </div>
+                <h1 class="text-xl font-bold">SocialSync</h1>
+            </div>
+
+            <nav class="flex-1 space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span>社交账号</span>
+                </a>
+                <a href="publish.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-600 transition-colors">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span>发帖子</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                    <span>数据分析</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span>设置</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">发帖子</h2>
+                <p class="text-slate-500 mt-1">一键发布内容到多个社交平台</p>
+            </header>
+
+            <div class="max-w-4xl">
+                <!-- Account Selection -->
+                <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-slate-800">选择发布账户 <span class="text-slate-400 text-sm font-normal"
+                                id="selectedCount">(已选择 0)</span></h3>
+                    </div>
+                    <div id="accountsList" class="flex flex-wrap gap-3">
+                        <div class="text-center py-8 text-slate-400 w-full">
+                            <p>正在加载账户...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Editor -->
+                <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-slate-800">帖子内容</h3>
+                        <button class="text-blue-600 text-sm hover:underline">AI 辅助写作</button>
+                    </div>
+                    <textarea id="postContent" placeholder="在这里输入您的帖子内容..."
+                        class="w-full h-48 p-4 border border-slate-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"></textarea>
+                    <div class="flex items-center justify-between mt-3 text-xs text-slate-400">
+                        <span id="charCount">0 字符</span>
+                    </div>
+                </div>
+
+                <!-- Media Attachments -->
+                <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm border border-slate-200">
+                    <h3 class="font-semibold text-slate-800 mb-4">媒体附件</h3>
+                    <div
+                        class="border-2 border-dashed border-slate-200 rounded-lg p-12 text-center hover:border-blue-500/50 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i data-lucide="upload-cloud" class="w-6 h-6 text-slate-400"></i>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-1">点击上传 或拖拽</p>
+                        <p class="text-xs text-slate-400">支持图片、视频、GIF。单个文件不超过 10MB</p>
+                        <p class="text-xs text-red-400 mt-2">Instagram、TikTok需要图片或视频，请先添加附件</p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-between">
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:text-slate-800 transition-colors">
+                        <i data-lucide="code" class="w-4 h-4"></i>
+                        <span class="text-sm">查看 JSON</span>
+                    </button>
+                    <div class="flex items-center gap-3">
+                        <button
+                            class="px-6 py-2.5 border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+                            预览效果
+                        </button>
+                        <button id="publishBtn"
+                            class="px-8 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                            <span>立即发布</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let accounts = [];
+        let selectedAccounts = [];
+
+        // Fetch connected accounts
+        async function loadAccounts() {
+            try {
+                const res = await fetch('http://localhost:5000/api/accounts');
+                accounts = await res.json();
+                renderAccounts();
+            } catch (error) {
+                console.error('Failed to load accounts:', error);
+                document.getElementById('accountsList').innerHTML = `
+                    <div class="text-center py-8 text-red-400 w-full">
+                        <p>加载账户失败，请确保后端服务已启动</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderAccounts() {
+            const container = document.getElementById('accountsList');
+            if (accounts.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-400 w-full">
+                        <p>暂无已连接账户，请先在"社交账号"页面连接账户</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = accounts.map(account => `
+                <button
+                    onclick="toggleAccount('${account.id}')"
+                    id="account-${account.id}"
+                    class="flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all border-slate-100 bg-white hover:border-slate-300 group"
+                >
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center text-white text-xs font-bold shrink-0 ring-2 ring-white group-hover:ring-slate-100 transition-all">
+                        ${account.avatar ?
+                    `<img src="${account.avatar}" alt="${account.name}" class="w-full h-full object-cover" onerror="this.onerror=null; this.innerHTML='${account.name ? account.name.substring(0, 2).toUpperCase() : 'NO'}'; this.classList.add('bg-slate-400')">` :
+                    `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-400 to-slate-600">${account.name ? account.name.substring(0, 2).toUpperCase() : 'NO'}</div>`
+                }
+                    </div>
+                    <div class="text-left overflow-hidden min-w-[80px]">
+                        <div class="text-sm font-bold text-slate-800 truncate leading-tight">${account.name || 'Account'}</div>
+                        <div class="text-[10px] text-slate-400 font-medium capitalize truncate">@${account.handle || account.platform}</div>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function toggleAccount(accountId) {
+            const index = selectedAccounts.indexOf(accountId);
+            const btn = document.getElementById(`account-${accountId}`);
+
+            if (index > -1) {
+                selectedAccounts.splice(index, 1);
+                btn.className = 'flex items-center gap-2 px-4 py-2 rounded-lg border-2 transition-all border-slate-200 bg-white hover:border-slate-300';
+            } else {
+                selectedAccounts.push(accountId);
+                btn.className = 'flex items-center gap-2 px-4 py-2 rounded-lg border-2 transition-all border-blue-600 bg-blue-50 shadow-md';
+            }
+
+            document.getElementById('selectedCount').textContent = `(已选择 ${selectedAccounts.length})`;
+        }
+
+        // Character count
+        document.getElementById('postContent').addEventListener('input', (e) => {
+            document.getElementById('charCount').textContent = `${e.target.value.length} 字符`;
+        });
+
+        // Publish handler
+        document.getElementById('publishBtn').addEventListener('click', async () => {
+            const content = document.getElementById('postContent').value.trim();
+
+            if (!content) {
+                alert('请输入帖子内容');
+                return;
+            }
+
+            if (selectedAccounts.length === 0) {
+                alert('请至少选择一个发布账户');
+                return;
+            }
+
+            const btn = document.getElementById('publishBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div><span>发布中...</span>';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/publish', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content: content,
+                        accountIds: selectedAccounts
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('发布成功！');
+                    document.getElementById('postContent').value = '';
+                    selectedAccounts = [];
+                    renderAccounts();
+                    document.getElementById('selectedCount').textContent = '(已选择 0)';
+                    document.getElementById('charCount').textContent = '0 字符';
+                } else {
+                    alert('发布失败: ' + (result.error || '未知错误'));
+                }
+            } catch (error) {
+                alert('发布失败: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>立即发布</span>';
+            }
+        });
+
+        // Load accounts on page load
+        loadAccounts();
+    </script>
+</body>
+
+</html>

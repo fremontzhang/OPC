@@ -1,0 +1,9 @@
+// 这个文件包含需要添加到dashboard.html的智能体相关组件代码
+
+// 1. MyAgentsView - 我的智能体页面
+// 2. AgentEditorView - 智能体编辑器
+// 3. CreateConfirmModal - 创建确认模态框
+// 4. PaymentModal - 付费订阅模态框
+// 5. AgentDetailsModal - 智能体详情模态框（已存在，需要保持深色主题）
+
+将在 line 1597 之后添加这些组件

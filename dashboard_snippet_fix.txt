@@ -1,0 +1,25 @@
+
+            {/* Upload Buttons */}
+            <div className="grid grid-cols-2 gap-4">
+                <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="h-24 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-600 text-slate-400 transition-all cursor-pointer flex flex-col items-center justify-center gap-2 group"
+                >
+                    <div className="p-2 bg-white rounded-full shadow-sm group-hover:scale-110 transition-transform">
+                        <Icon name="upload-cloud" size={18} />
+                    </div>
+                    <span className="text-xs font-bold">上传本地文件</span>
+                </div>
+
+                <div
+                    onClick={handleRemoteUrl}
+                    className="h-24 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 hover:bg-purple-50 hover:border-purple-400 hover:text-purple-600 text-slate-400 transition-all cursor-pointer flex flex-col items-center justify-center gap-2 group"
+                >
+                    <div className="p-2 bg-white rounded-full shadow-sm group-hover:scale-110 transition-transform">
+                        <Icon name="link" size={18} />
+                    </div>
+                    <span className="text-xs font-bold">粘贴网络地址</span>
+                </div>
+            </div>
+
+            {/* Media Preview Grid - Enhanced with Loading States */}
