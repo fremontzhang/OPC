@@ -758,9 +758,9 @@ def init_db():
     ''')
     
     # Create AI agents square table
-    conn.execute('''
+    conn.execute(f'''
     CREATE TABLE IF NOT EXISTS ai_agents (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id {pk_type},
         user_id INTEGER,
         name TEXT NOT NULL,
         tags TEXT,
@@ -768,9 +768,10 @@ def init_db():
         logic TEXT,
         icon TEXT,
         author TEXT,
-        usage INTEGER DEFAULT 0,
+        price FLOAT,
+        purchases INTEGER DEFAULT 0,
         rating FLOAT DEFAULT 5.0,
-        price TEXT DEFAULT 'Free Subscription',
+        status TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     ''')
