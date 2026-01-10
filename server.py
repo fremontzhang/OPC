@@ -705,6 +705,16 @@ def init_db():
     # Detect if using Postgres
     is_postgres = hasattr(conn, 'conn') # Wrapper check
     
+    # Preventing Deadlocks on Vercel (Concurrent Cold Starts)
+    if is_postgres:
+        try:
+            # Acquire transaction-level advisory lock (ID: 15213)
+            # This ensures only one instance runs init_db logic at a time
+            # The lock is automatically released at commit/rollback
+            conn.execute("SELECT pg_advisory_xact_lock(15213)")
+        except Exception as e:
+            print(f"⚠️ Lock acquire failed: {e}")
+
     # Define syntax based on DB type
     pk_type = "SERIAL PRIMARY KEY" if is_postgres else "INTEGER PRIMARY KEY AUTOINCREMENT"
     
