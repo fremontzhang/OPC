@@ -792,7 +792,8 @@ def init_db():
     # Insert demo account and initial capabilities
     try:
         hashed_pw = generate_password_hash("123456", method='pbkdf2:sha256')
-        conn.execute("INSERT OR IGNORE INTO users (email, password, name) VALUES (?, ?, ?)", 
+        # Use Postgres-compatible conflict syntax
+        conn.execute("INSERT INTO users (email, password, name) VALUES (?, ?, ?) ON CONFLICT(email) DO NOTHING", 
                      ("demo@example.com", hashed_pw, "Creative User"))
         
         # Check if official capabilities init needed
@@ -808,22 +809,24 @@ def init_db():
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', official_ones)
         
-        # Check if we need to init tasks
-        task_count = conn.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='agent_tasks'").fetchone()[0]
+        # Init agent tasks
+        # 1. Create table first (Safe to run always)
+        conn.execute(f'''
+        CREATE TABLE IF NOT EXISTS agent_tasks (
+            id {pk_type},
+            agent_id INTEGER,
+            description TEXT,
+            task_type TEXT,
+            status TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            completed_at TIMESTAMP,
+            FOREIGN KEY (agent_id) REFERENCES ai_agents (id)
+        )
+        ''')
+
+        # 2. Check if seeding needed
+        task_count = conn.execute("SELECT COUNT(*) FROM agent_tasks").fetchone()[0]
         if task_count == 0:
-            # Create agent tasks table
-            conn.execute(f'''
-            CREATE TABLE IF NOT EXISTS agent_tasks (
-                id {pk_type},
-                agent_id INTEGER,
-                description TEXT,
-                task_type TEXT,
-                status TEXT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                completed_at TIMESTAMP,
-                FOREIGN KEY (agent_id) REFERENCES ai_agents (id)
-            )
-            ''')
             
             # Insert mock tasks for agents
             # Get agent IDs
