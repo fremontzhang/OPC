@@ -636,6 +636,12 @@ class PostgresCursorWrapper:
             self.cursor.execute(sql, params)
         return self
 
+    def executemany(self, sql, params_seq):
+        # Convert SQLite ? placeholders to Postgres %s
+        sql = sql.replace('?', '%s')
+        self.cursor.executemany(sql, params_seq)
+        return self
+
     def fetchone(self):
         return self.cursor.fetchone()
 
@@ -655,6 +661,11 @@ class PostgresConnectionWrapper:
     def execute(self, sql, params=None):
         cursor = self.cursor()
         cursor.execute(sql, params)
+        return cursor
+
+    def executemany(self, sql, params_seq):
+        cursor = self.cursor()
+        cursor.executemany(sql, params_seq)
         return cursor
 
     def commit(self):
