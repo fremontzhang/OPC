@@ -868,11 +868,12 @@ def init_db():
             
             mock_tasks = []
             for agent in agents:
-                aid = agent[0]
+                aid = agent['id']
+                a_name = agent['name']
                 # Randomly assign status/tasks
                 r = random.random()
                 if r > 0.7: # Running
-                    mock_tasks.append((aid, f"Analyzing recent trends for {agent[1]}", "running", now.isoformat()))
+                    mock_tasks.append((aid, f"Analyzing recent trends for {a_name}", "running", now.isoformat()))
                     mock_tasks.append((aid, "Generating content draft #1", "pending", (now + datetime.timedelta(minutes=5)).isoformat()))
                 elif r > 0.4: # Completed
                     mock_tasks.append((aid, "Daily report generation", "completed", (now - datetime.timedelta(hours=1)).isoformat()))
