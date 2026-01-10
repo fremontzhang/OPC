@@ -827,7 +827,7 @@ def init_db():
                 ("短剧去重专家", "短剧,去重", "针对海外算法优化的视频重构流。", "#角色设定\n你是一位去重专家...", "zap", "短剧老兵", 5400, 4.9, "$99/月")
             ]
             conn.executemany('''
-                INSERT INTO ai_agents (name, tags, description, logic, icon, author, usage, rating, price)
+                INSERT INTO ai_agents (name, tags, description, logic, icon, author, purchases, rating, price)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', official_ones)
         
