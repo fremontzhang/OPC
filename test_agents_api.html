@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Agents API</title>
+</head>
+
+<body>
+    <h1>Testing Agents API</h1>
+    <button onclick="testAPI()">Test API</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function testAPI() {
+            const resultEl = document.getElementById('result');
+            resultEl.textContent = 'Loading...';
+
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/agents');
+                const data = await res.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+                console.log('API Response:', data);
+            } catch (error) {
+                resultEl.textContent = 'Error: ' + error.message;
+                console.error('API Error:', error);
+            }
+        }
+
+        // Auto test on load
+        testAPI();
+    </script>
+</body>
+
+</html>

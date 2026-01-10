@@ -139,7 +139,7 @@
         // Fetch connected accounts
         async function loadAccounts() {
             try {
-                const res = await fetch('http://localhost:5000/api/accounts');
+                const res = await fetch('http://localhost:5001/api/accounts');
                 accounts = await res.json();
                 renderAccounts();
             } catch (error) {
@@ -222,7 +222,7 @@
             btn.innerHTML = '<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div><span>发布中...</span>';
 
             try {
-                const response = await fetch('http://localhost:5000/api/publish', {
+                const response = await fetch('http://localhost:5001/api/publish', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

@@ -6,7 +6,7 @@ import sys
 # Ensure UTF-8 output if possible, but let's just remove emojis
 def test_publish():
     url = "http://127.0.0.1:5000/api/publish"
-    video_url = "https://beidou-file-test-v1.oss-cn-beijing.aliyuncs.com/syl/%E3%80%8ASo%2C%20Whose%20Ring%20...%E3%80%8B.mp4"
+    video_url = "https://beidou-file-test-v1.oss-cn-beijing.aliyuncs.com/syl/%E5%8E%BB%E9%87%8D0109.mp4"
     
     payload = {
         "content": "Test video from AI agent #TikTok #AI",

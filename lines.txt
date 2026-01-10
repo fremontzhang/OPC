@@ -1,0 +1,5 @@
+﻿                                                            onClick={() => toggleAccountSelection(acc.id)}
+                                                            className={`flex flex-col items-start gap-1 px-4 py-3 rounded-2xl border transition-all duration-300 group/acc ${isSelected ? 'bg-slate-900 border-slate-900 text-white shadow-xl shadow-slate-900/20'
+                                                                : 'bg-white border-slate-200 text-slate-600 hover:border-blue-500/30 hover:bg-blue-50/30'
+                                                                }`}
+                                                        >

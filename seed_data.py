@@ -20,52 +20,38 @@ def seed_analytics_data():
 
     # 2. Sample data for content and media
     contents = [
-        "在这个快节奏的时代，你是否也在寻找那份属于自己的宁静？✨ #生活美学 #心灵奇旅",
-        "3个动作教你高效减脂，收藏起来别吃灰！🔥 #健身打卡 #好身材练出来",
-        "最新黑科技推荐：这款AI工具居然能自动帮我剪辑视频？😱 #科技前沿 #设计神器",
-        "周末去哪儿？带你打卡这座城市最隐秘的猫咖 🐱 #城市漫游计划 #猫咪日常",
-        "今天尝试了跨界联名，效果出乎意料！快来看看这个开箱吧 🎁 #潮流风向标 #开箱视频",
-        "深夜食堂：一碗简单的葱油拌面，治愈一天的不开心 🍜 #深夜食堂 #美食教程",
-        "关于副业赚钱，我有几点掏心窝子的建议... 💰 #个人成长 #认知变现",
-        "挑战24小时不使用手机，我的真实感受是... 📵 #断舍离 #生活记录",
-        "这首歌适配所有的旅行Vlog，建议收藏！🎵 #旅行推荐 #氛围感",
-        "面试成功的10个小技巧，应届生必看！🎓 #求职指南 #面试经验",
-        "带你揭秘大厂员工的代码生活，真的有那么累吗？👨‍💻 #程序员日常 #互联网圈子",
-        "如何用手机拍出电影感的照片？这几个构图一定要学！📸 #手机摄影 #摄影教程",
-        "沉浸式整理工作台，开启效率满满的一天 ⌨️ #桌面美学 #高效工作",
-        "这款游戏的画质简直绝了！快来看看我的实机演示 🎮 #游戏杂谈 #画质体验",
-        "教你如何零成本给房间做个大改造 🏠 #家居分享 #软装搭配",
-        "如果你最近感到焦虑，不妨听听这段话 🌊 #治愈系 #心态调整",
-        "那些年我踩过的穿搭雷区，姐妹们千万别学！🙅‍♀️ #穿搭避雷 #显瘦穿搭",
-        "分享一个让你相见恨晚的学习方法 📚 #学习方法 #学霸养成",
-        "没想到这些东西混合在一起，味道居然这么神奇？🥤 #饮品DIY #味蕾挑战",
-        "这就是我理想的老年生活，哪怕只有一瞬间的自由 🌄 #向往的生活 #自由灵魂"
+        "In this fast-paced era, are you also looking for your own peace? ✨ #LifeAesthetics #SoulJourney",
+        "3 moves to teach you efficient fat loss, save it and don't let it gather dust! 🔥 #FitnessCheckIn #GoodBody",
+        "Latest tech recommendation: This AI tool can actually edit videos for me automatically? 😱 #TechFrontier #DesignTool",
+        "Where to go for the weekend? Take you to check out the most hidden cat cafe in the city 🐱 #CityRoaming #CatLife",
+        "Tried a crossover collaboration today, the effect was unexpected! Come and see this unboxing 🎁 #TrendSetter #UnboxingVideo",
+        "Midnight Diner: A simple bowl of scallion oil noodles cures all unhappiness 🍜 #MidnightDiner #FoodTutorial",
+        "About making money on the side, I have a few sincere suggestions... 💰 #PersonalGrowth #CognitionRealization",
+        "Challenge 24 hours without using a mobile phone, my real feelings are... 📵 #Declutter #LifeRecord",
+        "This song fits all travel Vlogs, recommended to save! 🎵 #TravelRecommendation #Atmosphere",
+        "10 tips for successful interviews, a must-see for fresh graduates! 🎓 #JobGuide #InterviewExperience",
+        "Reveal the code life of big factory employees, is it really that tired? 👨‍💻 #ProgrammerDaily #InternetCircle",
+        "How to take movie-like photos with a mobile phone? You must learn these compositions! 📸 #MobilePhotography #PhotographyTutorial",
+        "Immersive workmanship arrangement, open a day full of efficiency ⌨️ #DesktopAesthetics #EfficientWork",
+        "The picture quality of this game is simply amazing! Come and see my real machine demo 🎮 #GameTalk #QualityExperience",
+        "Teach you how to make a big transformation of the room with zero cost 🏠 #HomeSharing #SoftDecoration",
+        "If you feel anxious recently, you might as well listen to this passage 🌊 #Healing #MentalityAdjustment",
+        "The dressing minefields I stepped on in those years, sisters must not learn! 🙅‍♀️ #DressingAvoidance #SlimmingDressing",
+        "Share a learning method that makes you regret not knowing it earlier 📚 #LearningMethod #ScholarDevelopment",
+        "I didn't expect these things mixed together, the taste is actually so magical? 🥤 #DrinkDIY #TasteBudChallenge",
+        "This is my ideal old age life, even if only for a moment of freedom 🌄 #YearningLife #FreeSoul"
     ]
 
     media_templates = [
-        {"url": "https://images.unsplash.com/photo-1492691523567-6170c2405ea5?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Photography
-        {"url": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Studio
-        {"url": "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Music
-        {"url": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400&h=600&fit=crop", "type": "image/jpeg"}, # City
-        {"url": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Art
-        {"url": "https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Tech
-        {"url": "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Travel
-        {"url": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Desk
-        {"url": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Nature
-        {"url": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Coding
-        {"url": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Hardware
-        {"url": "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Office
-        {"url": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Team
-        {"url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Chart
-        {"url": "https://images.unsplash.com/photo-1454165833221-d7d11de49837?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Strategy
-        {"url": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Modern
-        {"url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Healthy Food
-        {"url": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Cooking
-        {"url": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Landscape
-        {"url": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Lake
-        {"url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Concert
-        {"url": "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=400&h=600&fit=crop", "type": "image/jpeg"}, # Coffee
-        {"url": "https://images.unsplash.com/photo-1506466010722-395aa2bef877?w=400&h=600&fit=crop", "type": "image/jpeg"}  # Minimalist
+        {"url": "cover1.png", "type": "image/png"},
+        {"url": "cover2.png", "type": "image/png"},
+        {"url": "cover3.png", "type": "image/png"},
+        {"url": "cover4.png", "type": "image/png"},
+        {"url": "cover5.png", "type": "image/png"},
+        {"url": "cover11.png", "type": "image/png"},
+        {"url": "cover7.png", "type": "image/png"},
+        {"url": "cover8.png", "type": "image/png"},
+        {"url": "cover9.png", "type": "image/png"}
     ]
 
     # 3. Generate 20-30 posts
@@ -117,20 +103,22 @@ def seed_analytics_data():
             views, likes, comments, shares, gmv
         ))
 
-    # 4. Add some more AI Agents to fulfill the "WOW" factor
     new_agents = [
-        ("情感短剧脚本师", "短剧,编剧", "擅长反转和爽点设计，分钟万赞教程。", "你是一个资深反转剧编剧...", "heart", "创作者联盟", 45000, 4.9, "¥299/年"),
-        ("海外带货助手", "跨境,TikTok", "自动生成英文带货口播稿，并优化海外SEO。", "You are a professional TikTok dropshipping expert...", "shopping-bag", "Global Team", 32000, 4.8, "¥19/月"),
-        ("爆款标题生成器", "文案,SEO", "万能标题公式，点击率提升300%。", "你是一个营销大师，专门起爆款标题...", "edit-3", "官方工具", 89000, 4.9, "免费订阅"),
-        ("AI 翻译官 (多语种)", "翻译,出海", "保持原意且符合当地表达习惯的精准翻译。", "你是一个精通多国语言的翻译官...", "globe", "官方工具", 56000, 4.7, "官方能力"),
-        ("数据分析专家", "运营,策略", "导入历史数据，自动生成下一阶段创作策略。", "你是一个顶尖的数据分析师...", "trending-up", "AI实验室", 12000, 4.8, "¥49/月")
+        ("短剧编剧助手", "短剧,脚本", "擅长情节反转与戏剧性设计，爆款教程。", "你是一位资深短剧编剧...", "heart", "创作者联盟", 4500, 4.9, "$299/year"),
+        ("跨境销售助手", "跨境,TikTok", "自动生成英文销售脚本并优化SEO。", "你是专业的TikTok代发货专家...", "shopping-bag", "全球团队", 3200, 4.8, "$19/month"),
+        ("爆款标题生成器", "文案,SEO", "万能标题公式，点击率提升300%。", "你是营销大师，专攻爆款标题...", "edit-3", "官方工具", 8900, 4.9, "免费订阅"),
+        ("AI翻译官（多语言）", "翻译,出海", "精准翻译保留原意与本土化习语。", "你是精通多国语言的翻译官...", "globe", "官方工具", 5600, 4.7, "官方能力"),
+        ("数据分析专家", "运营,策略", "导入历史数据，自动生成下阶段策略。", "你是顶级数据分析师...", "trending-up", "AI实验室", 12000, 4.8, "$49/month")
     ]
     
     for agent in new_agents:
-        cursor.execute("""
-            INSERT INTO ai_agents (name, tags, description, logic, icon, author, usage, rating, price)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, agent)
+        # 检查是否已存在同名智能体，避免重复插入
+        exists = cursor.execute("SELECT 1 FROM ai_agents WHERE name = ?", (agent[0],)).fetchone()
+        if not exists:
+            cursor.execute("""
+                INSERT INTO ai_agents (name, tags, description, logic, icon, author, usage, rating, price)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, agent)
 
     conn.commit()
     conn.close()
