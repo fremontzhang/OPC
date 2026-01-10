@@ -2325,6 +2325,11 @@
         const AgentWorkbenchModal = ({ agent, tasks, onClose }) => {
             // Mock Data Generator based on Agent Type
             const getWorkbenchData = () => {
+                // SPECIAL CASE: Meteor Shower Agent uses Custom Grid View (handled in DEFAULT block)
+                if (agent.name === '流星雨发布达人') {
+                    return { type: 'DEFAULT', tasks: tasks };
+                }
+
                 if (agent.name.includes('剪辑') || agent.name.includes('发布') || (agent.tags && agent.tags.includes('Video'))) {
                     return {
                         type: 'DISTRIBUTION',
