@@ -779,7 +779,7 @@ def init_db():
         logic TEXT,
         icon TEXT,
         author TEXT,
-        price FLOAT,
+        price TEXT,
         purchases INTEGER DEFAULT 0,
         rating FLOAT DEFAULT 5.0,
         status TEXT,
@@ -807,6 +807,15 @@ def init_db():
         conn.execute("INSERT INTO users (email, password, name) VALUES (?, ?, ?) ON CONFLICT(email) DO NOTHING", 
                      ("demo@example.com", hashed_pw, "Creative User"))
         
+        # --- Schema Migration Patch: ensure price is TEXT ---
+        if is_postgres:
+            try:
+                # This fixes the issue where previous wrong schema (FLOAT) exists on Vercel
+                conn.execute("ALTER TABLE ai_agents ALTER COLUMN price TYPE TEXT")
+                conn.commit()
+            except Exception as e:
+                print(f"Migration trace (harmless if already TEXT): {e}")
+
         # Check if official capabilities init needed
         count = conn.execute("SELECT COUNT(*) FROM ai_agents").fetchone()[0]
         if count == 0:
