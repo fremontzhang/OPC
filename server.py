@@ -840,6 +840,22 @@ def init_db():
                 INSERT INTO ai_agents (name, tags, description, logic, icon, author, purchases, rating, price)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', official_ones)
+            
+        # Delta Update: Add "Meteor Shower" Series Agents if missing
+        params_check = ("流星雨发布达人",)
+        check_delta = conn.execute("SELECT COUNT(*) as cnt FROM ai_agents WHERE name = ?", params_check).fetchone()['cnt']
+        
+        if check_delta == 0:
+            new_agents = [
+                ("流星雨发布达人", "发布,自动化,社交媒体", "负责不间断、高质量、智能的将内容自动发布到社交媒体。", "自动化发布逻辑...", "send", "官方团队", 3200, 4.8, "$49/月"),
+                ("内容审查员", "审核,合规,安全", "负责在发布内容前，可以针对内容进行审核，结合社交媒体的发布规则。", "合规性检查逻辑...", "shield", "官方团队", 4100, 4.9, "$29/月"),
+                ("资深数据运营", "数据分析,运营,策略", "负责分析发布内容后的播放量、点击量、转化率和出单的数据情况，来指导用户如何更加高效、高质量的选内容、调整策略和剪辑内容。", "数据驱动决策逻辑...", "trending-up", "官方团队", 1200, 5.0, "$99/月")
+            ]
+            conn.executemany('''
+                INSERT INTO ai_agents (name, tags, description, logic, icon, author, purchases, rating, price)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', new_agents)
+            conn.commit()  # Immediate commit for this delta
         
         # Init agent tasks
         # 1. Create table first (Safe to run always)
