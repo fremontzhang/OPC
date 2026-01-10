@@ -806,12 +806,14 @@ def init_db():
         # Use Postgres-compatible conflict syntax
         conn.execute("INSERT INTO users (email, password, name) VALUES (?, ?, ?) ON CONFLICT(email) DO NOTHING", 
                      ("demo@example.com", hashed_pw, "Creative User"))
+        conn.commit() # Commit basic tables and user
         
         # --- Schema Migration Patch: ensure price is TEXT ---
         if is_postgres:
             try:
                 # This fixes the issue where previous wrong schema (FLOAT) exists on Vercel
-                conn.execute("ALTER TABLE ai_agents ALTER COLUMN price TYPE TEXT")
+                # USING price::text handles potential type casting conversion safely
+                conn.execute("ALTER TABLE ai_agents ALTER COLUMN price TYPE TEXT USING price::text")
                 conn.commit()
             except Exception as e:
                 print(f"Migration trace (harmless if already TEXT): {e}")
