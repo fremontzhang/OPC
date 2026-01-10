@@ -776,9 +776,9 @@ def init_db():
     ''')
     
     # Create subscriptions table
-    conn.execute('''
+    conn.execute(f'''
     CREATE TABLE IF NOT EXISTS subscriptions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id {pk_type},
         user_id INTEGER,
         agent_id INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -811,13 +811,15 @@ def init_db():
         task_count = conn.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='agent_tasks'").fetchone()[0]
         if task_count == 0:
             # Create agent tasks table
-            conn.execute('''
+            conn.execute(f'''
             CREATE TABLE IF NOT EXISTS agent_tasks (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id {pk_type},
                 agent_id INTEGER,
                 description TEXT,
+                task_type TEXT,
                 status TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                completed_at TIMESTAMP,
                 FOREIGN KEY (agent_id) REFERENCES ai_agents (id)
             )
             ''')
