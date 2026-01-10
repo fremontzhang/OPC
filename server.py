@@ -819,7 +819,7 @@ def init_db():
                 print(f"Migration trace (harmless if already TEXT): {e}")
 
         # Check if official capabilities init needed
-        count = conn.execute("SELECT COUNT(*) FROM ai_agents").fetchone()[0]
+        count = conn.execute("SELECT COUNT(*) as cnt FROM ai_agents").fetchone()['cnt']
         if count == 0:
             official_ones = [
                 ("AI创作助手", "创作,创作助手", "专业小说创作助手，擅长各类题材。", "你是一位金牌小说编辑...", "book", "官方团队", 15200, 4.9, "官方能力"),
@@ -847,7 +847,7 @@ def init_db():
         ''')
 
         # 2. Check if seeding needed
-        task_count = conn.execute("SELECT COUNT(*) FROM agent_tasks").fetchone()[0]
+        task_count = conn.execute("SELECT COUNT(*) as cnt FROM agent_tasks").fetchone()['cnt']
         if task_count == 0:
             
             # Insert mock tasks for agents
@@ -877,7 +877,7 @@ def init_db():
         conn.execute("DELETE FROM posts WHERE content NOT LIKE '%剧%' AND content NOT LIKE '%集%' AND content NOT LIKE '%重生%' AND content NOT LIKE '%逆袭%'")
         
         # 2. If table data is sparse, insert rich drama demo data (aligned user avatar)
-        post_count = conn.execute("SELECT COUNT(*) FROM posts").fetchone()[0]
+        post_count = conn.execute("SELECT COUNT(*) as cnt FROM posts").fetchone()['cnt']
         if post_count < 5:
             import datetime
             now = datetime.datetime.now()
