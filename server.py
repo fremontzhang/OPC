@@ -942,7 +942,12 @@ def init_db():
     conn.close()
 
 # Initialize Database
-init_db()
+try:
+    init_db()
+except Exception as e:
+    print(f"⚠️ Global init_db failed: {e}")
+    # We continue, allowing debug_db to show the error
+    pass
 
 def get_headers():
     return {
