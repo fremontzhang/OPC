@@ -2501,6 +2501,17 @@ def get_agent_tasks(agent_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# Global error capture
+INIT_ERROR = None
+
+# Initialize Database
+try:
+    init_db()
+except Exception as e:
+    INIT_ERROR = f"Global init_db failed: {str(e)}\n{traceback.format_exc()}"
+    print(f"⚠️ {INIT_ERROR}")
+    pass
+
 @app.route('/api/debug_db', methods=['GET'])
 def debug_db():
     import time
@@ -2509,6 +2520,7 @@ def debug_db():
     result = {
         "status": "unknown",
         "error": None,
+        "init_error": INIT_ERROR,
         "is_postgres": None,
         "tables": [],
         "counts": {}
