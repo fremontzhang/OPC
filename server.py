@@ -932,6 +932,7 @@ def init_db():
             conn.executemany('''
                 INSERT INTO posts (id, team_id, content, status, post_date, accounts_json, media_json, views, likes, comments_count, shares, gmv)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO NOTHING
             ''', drama_posts)
             
     except Exception as e:
