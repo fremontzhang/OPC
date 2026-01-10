@@ -2505,14 +2505,41 @@
                                                             <span className="text-[10px] font-mono text-slate-500">#{task.id}</span>
                                                         </div>
 
-                                                        {/* Description */}
-                                                        <div className="flex flex-col">
-                                                            <span className="text-slate-300 text-[10px] font-bold truncate">{task.description.split(':')[0]}</span>
-                                                            <span className="text-slate-500 text-[9px] truncate">{task.description.split(':').slice(1).join(':') || 'Processing...'}</span>
-                                                        </div>
+                                                        {/* Description & Parsing */}
+                                                        {(() => {
+                                                            // Format: "Action: Title Ep.X - Platform"
+                                                            // Example: "正在发布: 《龙王归来》 Ep.5 - TikTok"
+                                                            const fullStr = task.description;
+                                                            const parts = fullStr.split(/[:\-]/).map(s => s.trim());
+                                                            const action = parts[0] || 'Processing';
+                                                            const title = parts[1] || 'Unknown';
+                                                            const platform = parts[parts.length - 1] || 'Unknown';
+
+                                                            let platIcon = 'globe';
+                                                            let platColor = 'text-slate-400';
+                                                            if (platform.includes('TikTok')) { platIcon = 'music'; platColor = 'text-black'; } // TikTok use music note
+                                                            else if (platform.includes('Instagram')) { platIcon = 'camera'; platColor = 'text-pink-500'; }
+                                                            else if (platform.includes('YouTube')) { platIcon = 'play-circle'; platColor = 'text-red-500'; }
+                                                            else if (platform.includes('Twitter')) { platIcon = 'twitter'; platColor = 'text-sky-500'; }
+                                                            else if (platform.includes('Facebook')) { platIcon = 'facebook'; platColor = 'text-blue-600'; }
+
+                                                            return (
+                                                                <div className="flex flex-col gap-1 mt-1">
+                                                                    <div className="flex items-center justify-between">
+                                                                        <span className="text-slate-200 text-xs font-bold truncate">{action}</span>
+                                                                        {/* Platform Badge */}
+                                                                        <div className="flex items-center gap-1 bg-white/10 px-1.5 py-0.5 rounded-md">
+                                                                            <Icon name={platIcon} size={10} className={platColor} />
+                                                                            <span className="text-[10px] text-slate-300 font-bold">{platform}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span className="text-white text-sm font-black truncate tracking-tight">{title}</span>
+                                                                </div>
+                                                            );
+                                                        })()}
 
                                                         {/* Progress & Time */}
-                                                        <div className="flex items-center justify-between text-[8px] font-mono text-slate-500 pt-1">
+                                                        <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-2">
                                                             <span className="text-blue-400 font-bold">
                                                                 {task.status === 'running' ? Math.floor(Math.random() * 60 + 20) + '%' : '100%'}
                                                             </span>

@@ -873,7 +873,7 @@ def init_db():
             now = datetime.datetime.now()
             
             platforms = ["TikTok", "Instagram", "YouTube", "Twitter", "Facebook"]
-            actions = ["Publishing", "Optimizing", "Scheduling"]
+            actions = ["正在发布", "智能优化", "排程中"]
             drama_titles = [
                 "《霸道总裁爱上我》", "《重生之我是首富》", "《闪婚甜妻》", "《龙王归来》", 
                 "《回到古代当闲人》", "《绝世神医》", "《豪门弃少》", "《萌宝来袭》",
