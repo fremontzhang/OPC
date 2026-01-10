@@ -847,7 +847,7 @@ def init_db():
         
         if check_delta == 0:
             new_agents = [
-                ("流星雨发布达人", "发布,自动化,社交媒体", "负责不间断、高质量、智能的将内容自动发布到社交媒体。", "自动化发布逻辑...", "send", "官方团队", 3200, 4.8, "$49/月"),
+                ("流星雨发布达人", "发布,自动化,社交媒体", "我是您的全天候内容分发引擎。除了自动发布，我还能进行多平台同步、发布时间优化和流量趋势捕捉，确保每一条内容都能精准触达目标受众。", "自动化发布逻辑...", "cloud-lightning", "官方团队", 3200, 4.8, "$49/月"),
                 ("内容审查员", "审核,合规,安全", "负责在发布内容前，可以针对内容进行审核，结合社交媒体的发布规则。", "合规性检查逻辑...", "shield", "官方团队", 4100, 4.9, "$29/月"),
                 ("资深数据运营", "数据分析,运营,策略", "负责分析发布内容后的播放量、点击量、转化率和出单的数据情况，来指导用户如何更加高效、高质量的选内容、调整策略和剪辑内容。", "数据驱动决策逻辑...", "trending-up", "官方团队", 1200, 5.0, "$99/月")
             ]
@@ -856,7 +856,36 @@ def init_db():
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', new_agents)
             conn.commit()  # Immediate commit for this delta
-        
+            
+        # Delta 2: Seed 20 concurrent tasks for "Meteor Shower" (To demo batch view)
+        # Find Agent ID
+        meteor_agent = conn.execute("SELECT id FROM ai_agents WHERE name = '流星雨发布达人'").fetchone()
+        if meteor_agent:
+            mid = meteor_agent['id']
+            # FORCE RESET: Delete existing tasks for this agent to ensure exact count of 20
+            # This fixes issues where previous seeding might have resulted in partial data (e.g. 4 tasks)
+            conn.execute("DELETE FROM agent_tasks WHERE agent_id = ?", (mid,))
+            
+            # Seed 20 concurrent tasks
+            batch_tasks = []
+            import datetime
+            import random
+            now = datetime.datetime.now()
+            
+            platforms = ["TikTok", "Instagram", "YouTube", "Twitter", "Facebook"]
+            actions = ["Uploading", "Processing", "Publishing", "Optimizing", "Scheduling"]
+            
+            for i in range(1, 21):
+                p = random.choice(platforms)
+                a = random.choice(actions)
+                # High probability of being "running" for demo
+                status = "running" if i > 3 else "completed" 
+                desc = f"Batch #{i:02d}: {a} to {p} - Channel A"
+                batch_tasks.append((mid, desc, status, now.isoformat()))
+            
+            conn.executemany("INSERT INTO agent_tasks (agent_id, description, status, created_at) VALUES (?, ?, ?, ?)", batch_tasks)
+            conn.commit()
+
         # Init agent tasks
         # 1. Create table first (Safe to run always)
         conn.execute(f'''
