@@ -1171,7 +1171,8 @@
                 '爆款标题生成器': 'static/official_headline.png',
                 'AI翻译官': 'static/official_translator.png',
                 '短剧剪辑大师': 'static/official_editor.png',
-                'Editing Master': 'static/official_editor.png'
+                'Editing Master': 'static/official_editor.png',
+                '流星雨发布达人': 'https://images.unsplash.com/photo-1516822604297-c25f4fb4de95?w=400&q=80',
             };
 
             if (name && specialAvatars[name]) {
@@ -2508,6 +2509,16 @@
                                                         <div className="flex flex-col">
                                                             <span className="text-slate-300 text-[10px] font-bold truncate">{task.description.split(':')[0]}</span>
                                                             <span className="text-slate-500 text-[9px] truncate">{task.description.split(':').slice(1).join(':') || 'Processing...'}</span>
+                                                        </div>
+
+                                                        {/* Progress & Time */}
+                                                        <div className="flex items-center justify-between text-[8px] font-mono text-slate-500 pt-1">
+                                                            <span className="text-blue-400 font-bold">
+                                                                {task.status === 'running' ? Math.floor(Math.random() * 60 + 20) + '%' : '100%'}
+                                                            </span>
+                                                            <span>
+                                                                {task.status === 'running' ? 'Est. 2m' : 'Done'}
+                                                            </span>
                                                         </div>
 
                                                         {/* Progress Bar (Visual) */}
@@ -7455,7 +7466,7 @@
                                                         : 'bg-slate-50 text-slate-400 border-slate-100 hover:bg-slate-100'
                                                         }`}>
                                                     <span className={`w-2.5 h-2.5 rounded-full ${agent.running_tasks > 0 ? 'bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]' : 'bg-amber-400'}`}></span>
-                                                    <span className="tracking-wide text-shadow-sm">{agent.running_tasks > 0 ? '工作中' : '待命'}</span>
+                                                    <span className="tracking-wide text-shadow-sm">{agent.running_tasks > 0 ? '任务' : '待命'}</span>
                                                 </div>
                                             </div>
 
@@ -7482,7 +7493,7 @@
                                                                 <div className="flex items-center justify-between mb-2 px-1">
                                                                     <span className="text-[10px] uppercase tracking-widest font-black text-slate-400">正在执行</span>
                                                                     <div className={`px-2 py-0.5 rounded-md text-[10px] font-black ${countColor}`}>
-                                                                        {4} 个任务
+                                                                        {agent.running_tasks || 0} 个任务
                                                                     </div>
                                                                 </div>
 

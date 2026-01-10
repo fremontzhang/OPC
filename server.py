@@ -873,14 +873,21 @@ def init_db():
             now = datetime.datetime.now()
             
             platforms = ["TikTok", "Instagram", "YouTube", "Twitter", "Facebook"]
-            actions = ["Uploading", "Processing", "Publishing", "Optimizing", "Scheduling"]
+            actions = ["Publishing", "Optimizing", "Scheduling"]
+            drama_titles = [
+                "《霸道总裁爱上我》", "《重生之我是首富》", "《闪婚甜妻》", "《龙王归来》", 
+                "《回到古代当闲人》", "《绝世神医》", "《豪门弃少》", "《萌宝来袭》",
+                "《末世降临》", "《逆天改命》"
+            ]
             
             for i in range(1, 21):
                 p = random.choice(platforms)
                 a = random.choice(actions)
-                # High probability of being "running" for demo
+                title = random.choice(drama_titles)
+                ep = random.randint(1, 50)
                 status = "running" if i > 3 else "completed" 
-                desc = f"Batch #{i:02d}: {a} to {p} - Channel A"
+                # Format: "Action: Title Ep.X"
+                desc = f"{a}: {title} Ep.{ep} - {p}"
                 batch_tasks.append((mid, desc, status, now.isoformat()))
             
             conn.executemany("INSERT INTO agent_tasks (agent_id, description, status, created_at) VALUES (?, ?, ?, ?)", batch_tasks)
