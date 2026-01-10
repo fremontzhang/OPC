@@ -935,8 +935,10 @@ def init_db():
                 ON CONFLICT(id) DO NOTHING
             ''', drama_posts)
             
+            
     except Exception as e:
         print(f"Init DB Error: {e}")
+        raise e # Re-raise to capture in global INIT_ERROR
         
     conn.commit()
     conn.close()
@@ -2510,7 +2512,7 @@ try:
 except Exception as e:
     INIT_ERROR = f"Global init_db failed: {str(e)}\n{traceback.format_exc()}"
     print(f"⚠️ {INIT_ERROR}")
-    pass
+    # Don't exit, allow debug endpoint to run
 
 @app.route('/api/debug_db', methods=['GET'])
 def debug_db():
@@ -2523,6 +2525,7 @@ def debug_db():
         "init_error": INIT_ERROR,
         "is_postgres": None,
         "tables": [],
+        "ai_agents_columns": [], # Validating schema
         "counts": {}
     }
     try:
@@ -2532,7 +2535,12 @@ def debug_db():
         # List tables
         if result["is_postgres"]:
             tables = conn.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public'").fetchall()
-            result["tables"] = [row['table_name'] for row in tables] # RealDictRow
+            result["tables"] = [row['table_name'] for row in tables] 
+            
+            # Check ai_agents columns to verify price type
+            cols = conn.execute("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'ai_agents'").fetchall()
+            result["ai_agents_columns"] = [{c['column_name']: c['data_type']} for c in cols]
+            
         else:
             tables = conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
             result["tables"] = [row['name'] for row in tables]
