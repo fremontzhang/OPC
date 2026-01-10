@@ -2496,8 +2496,52 @@ def get_agent_tasks(agent_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/debug_db', methods=['GET'])
+def debug_db():
+    import time
+    import traceback
+    start = time.time()
+    result = {
+        "status": "unknown",
+        "error": None,
+        "is_postgres": None,
+        "tables": [],
+        "counts": {}
+    }
+    try:
+        conn = get_db_connection()
+        result["is_postgres"] = hasattr(conn, 'conn')
+        
+        # List tables
+        if result["is_postgres"]:
+            tables = conn.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public'").fetchall()
+            result["tables"] = [row['table_name'] for row in tables] # RealDictRow
+        else:
+            tables = conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
+            result["tables"] = [row['name'] for row in tables]
+            
+        # Count rows
+        count_tables = ['ai_agents', 'agent_tasks', 'subscriptions', 'users', 'posts']
+        for t in count_tables:
+            if t in result["tables"]:
+                try:
+                    c = conn.execute(f"SELECT COUNT(*) as c FROM {t}").fetchone()
+                    result["counts"][t] = c['c'] if result["is_postgres"] else c[0]
+                except Exception as e:
+                    result["counts"][t] = f"Error: {e}"
+        
+        result["status"] = "ok"
+        conn.close()
+    except Exception as e:
+        result["status"] = "error"
+        result["error"] = f"{str(e)}\n{traceback.format_exc()}"
+        
+    result["duration"] = time.time() - start
+    return jsonify(result)
 
+# Vercel requires this
 if __name__ == '__main__':
     print(f"Database initialized at {os.path.abspath(DB_PATH)}")
     print("Server running on http://localhost:5001")
-    app.run(port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
+```
