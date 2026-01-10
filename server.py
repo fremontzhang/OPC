@@ -615,7 +615,11 @@ def download_and_proxy_upload(url):
         return None, f"File sync to cloud failed: {error}"
 
 # --- Static File Service (Actually Database & Init) ---
+# Vercel Read-Only FS fix: Use /tmp for SQLite if not using Postgres
 DB_PATH = "platform.db"
+if os.environ.get('VERCEL') or (sys.platform != 'win32' and not os.access('.', os.W_OK)):
+    DB_PATH = "/tmp/platform.db"
+    print(f"⚠️ Read-only file system detected. using ephemeral DB at {DB_PATH}")
 
 # --- Database Abstraction Layer ---
 class PostgresCursorWrapper:
@@ -671,13 +675,18 @@ def get_db_connection():
             from psycopg2.extras import RealDictCursor
             conn = psycopg2.connect(database_url, cursor_factory=RealDictCursor)
             return PostgresConnectionWrapper(conn)
-        except ImportError:
-            print("pyscopg2 not installed, falling back to SQLite")
+        except Exception as e:
+            print(f"❌ Postgres connection failed: {e}")
+            print("Falling back to SQLite...")
     
     # Fallback to SQLite
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        return conn
+    except Exception as e:
+        print(f"❌ SQLite connection failed at {DB_PATH}: {e}")
+        raise e
 
 def init_db():
     conn = get_db_connection()
