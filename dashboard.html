@@ -1197,7 +1197,7 @@
                 'AI翻译官': 'static/official_translator.png',
                 '短剧剪辑大师': 'static/official_editor.png',
                 'Editing Master': 'static/official_editor.png',
-                '流星雨发布达人': 'https://images.unsplash.com/photo-1516822604297-c25f4fb4de95?w=400&q=80',
+                'AI 发布专家': 'https://images.unsplash.com/photo-1516822604297-c25f4fb4de95?w=400&q=80',
             };
 
             if (name && specialAvatars[name]) {
@@ -2352,7 +2352,7 @@
             // Mock Data Generator based on Agent Type
             const getWorkbenchData = () => {
                 // SPECIAL CASE: Meteor Shower Agent uses Custom Grid View (handled in DEFAULT block)
-                if (agent.name === '流星雨发布达人') {
+                if (agent.name === 'AI 发布专家') {
                     return { type: 'DEFAULT', tasks: tasks };
                 }
 
@@ -2502,7 +2502,7 @@
                                 <div className="space-y-4">
                                     {(!tasks || tasks.length === 0) ? (
                                         <div className="text-center py-10 text-slate-500">暂无活动任务</div>
-                                    ) : agent.name === '流星雨发布达人' ? (
+                                    ) : agent.name === 'AI 发布专家' ? (
                                         // 🚀 Meteor Shower Special Grid View (Batch Visualization)
                                         <div className="space-y-4">
                                             <div className="flex items-center justify-between px-1">
@@ -7511,14 +7511,13 @@
                                                 </div>
 
 
-                                                {/* Status Badge - Clickable */}
-                                                <div onClick={(e) => { e.stopPropagation(); handleShowTasks(agent); }}
-                                                    className={`ml-4 shrink-0 px-4 py-1.5 rounded-full text-xs font-bold cursor-pointer transition-all hover:scale-105 border flex items-center gap-2 group/status ${(agent.running_tasks > 0)
-                                                        ? 'bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-lg shadow-emerald-500/20 ring-1 ring-emerald-500/50'
-                                                        : 'bg-slate-50 text-slate-400 border-slate-100 hover:bg-slate-100'
-                                                        }`}>
-                                                    <span className={`w-2.5 h-2.5 rounded-full ${agent.running_tasks > 0 ? 'bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]' : 'bg-amber-400'}`}></span>
-                                                    <span className="tracking-wide text-shadow-sm">{agent.running_tasks > 0 ? '任务' : '待命'}</span>
+                                                {/* Status Badge - Static (Interaction moved to bar) */}
+                                                <div className={`ml-4 shrink-0 px-4 py-1.5 rounded-full text-xs font-bold transition-all border flex items-center gap-2 group/status ${(agent.running_tasks > 0)
+                                                    ? 'bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-lg shadow-emerald-500/20 ring-1 ring-emerald-500/50'
+                                                    : 'bg-slate-50 text-slate-400 border-slate-100'
+                                                    }`}>
+                                                    <span className={`w-2 h-2 rounded-full ${agent.running_tasks > 0 ? 'bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]' : 'w-2 h-2 rounded-full bg-slate-300'}`}></span>
+                                                    <span className="tracking-wide text-shadow-sm">{agent.running_tasks > 0 ? '工作中' : '待命'}</span>
                                                 </div>
                                             </div>
 
@@ -7544,13 +7543,16 @@
                                                                 {/* Task Count Header */}
                                                                 <div className="flex items-center justify-between mb-2 px-1">
                                                                     <span className="text-[10px] uppercase tracking-widest font-black text-slate-400">正在执行</span>
-                                                                    <div className={`px-2 py-0.5 rounded-md text-[10px] font-black ${countColor}`}>
+                                                                    <div className={`px-3 py-1 rounded-lg text-sm font-black bg-slate-100 text-slate-600`}>
                                                                         {agent.running_tasks || 0} 个任务
                                                                     </div>
                                                                 </div>
 
-                                                                {/* Action Bar - Static Color */}
-                                                                <div className={`inline-flex items-center gap-3 px-3 py-2.5 rounded-xl border w-full shadow-sm ${colorClass}`}>
+                                                                {/* Action Bar - Clickable Task Detail */}
+                                                                <div
+                                                                    onClick={(e) => { e.stopPropagation(); handleShowTasks(agent); }}
+                                                                    className={`inline-flex items-center gap-3 px-3 py-3 rounded-xl border w-full shadow-sm hover:scale-[1.02] cursor-pointer transition-transform duration-200 ${colorClass}`}
+                                                                >
                                                                     <div className="relative shrink-0">
                                                                         <Icon name="loader" size={16} className={`${iconColor} animate-spin`} />
                                                                     </div>

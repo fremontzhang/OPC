@@ -847,23 +847,24 @@ def init_db():
         
         if check_delta == 0:
             new_agents = [
-                ("流星雨发布达人", "发布,自动化,社交媒体", "我是您的全天候内容分发引擎。除了自动发布，我还能进行多平台同步、发布时间优化和流量趋势捕捉，确保每一条内容都能精准触达目标受众。", "自动化发布逻辑...", "cloud-lightning", "官方团队", 3200, 4.8, "$49/月"),
-                ("内容审查员", "审核,合规,安全", "负责在发布内容前，可以针对内容进行审核，结合社交媒体的发布规则。", "合规性检查逻辑...", "shield", "官方团队", 4100, 4.9, "$29/月"),
-                ("资深数据运营", "数据分析,运营,策略", "负责分析发布内容后的播放量、点击量、转化率和出单的数据情况，来指导用户如何更加高效、高质量的选内容、调整策略和剪辑内容。", "数据驱动决策逻辑...", "trending-up", "官方团队", 1200, 5.0, "$99/月")
-            ]
-            conn.executemany('''
-                INSERT INTO ai_agents (name, tags, description, logic, icon, author, purchases, rating, price)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', new_agents)
-            conn.commit()  # Immediate commit for this delta
-            
-        # Delta 2: Seed 20 concurrent tasks for "Meteor Shower" (To demo batch view)
-        # Find Agent ID
-        meteor_agent = conn.execute("SELECT id FROM ai_agents WHERE name = '流星雨发布达人'").fetchone()
-        if meteor_agent:
-            mid = meteor_agent['id']
-            # FORCE RESET: Delete existing tasks for this agent to ensure exact count of 20
-            # This fixes issues where previous seeding might have resulted in partial data (e.g. 4 tasks)
+        # Delta Seeding 2: AI Publishing Expert (Renamed from Meteor Shower)
+        expert_agent = conn.execute("SELECT id FROM ai_agents WHERE name = 'AI 发布专家'").fetchone()
+        
+        # If incorrectly named "流星雨发布达人" exists, rename it
+        old_meteor = conn.execute("SELECT id FROM ai_agents WHERE name = '流星雨发布达人'").fetchone()
+        if old_meteor and not expert_agent:
+            conn.execute("UPDATE ai_agents SET name = 'AI 发布专家', description = '全天候、多平台同步、流量趋势捕捉，您的专职发布专家。', icon = 'cloud-lightning' WHERE id = ?", (old_meteor['id'],))
+            expert_agent = old_meteor
+
+        # If completely missing, create it
+        if not expert_agent and not old_meteor:
+             conn.execute("INSERT INTO ai_agents (name, description, type, status, capabilities, icon, price, tags, author) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                         ('AI 发布专家', '全天候、多平台同步、流量趋势捕捉，您的专职发布专家。', 'EXECUTION', 'active', 'Batch Publishing', 'cloud-lightning', '官方能力', '发布,自动化,社交媒体', '官方团队'))
+             expert_agent = conn.execute("SELECT id FROM ai_agents WHERE name = 'AI 发布专家'").fetchone()
+
+        if expert_agent:
+            mid = expert_agent['id']
+            # FORCE RESET: Delete existing tasks
             conn.execute("DELETE FROM agent_tasks WHERE agent_id = ?", (mid,))
             
             # Seed 20 concurrent tasks
