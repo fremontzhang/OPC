@@ -31,13 +31,10 @@
 
     <style>
         body {
-
             font-family: 'Inter', sans-serif;
-
             overflow: hidden;
-
-            background: #0a0e27;
-
+            background: #1F0201;
+            /* Deep Red Theme */
         }
 
         /* Stunning Dark Gradient Background */
@@ -79,7 +76,8 @@
                     #302b63 100%);
 
             /* Disabling background shift for zero-light look */
-            background: #0a0e27;
+            /* Deep Red Theme Override */
+            background: #1F0201;
             animation: none;
 
 
@@ -97,6 +95,33 @@
 
             z-index: 0;
 
+        }
+
+        /* Custom Gradients */
+        .btn-gradient-01 {
+            background: linear-gradient(90deg, #D02034 0%, #9917B4 50%, #00F0FF 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient-02 {
+            background: linear-gradient(90deg, #D02034 0%, #2181FF 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .text-theme-red {
+            color: #D02034;
+        }
+
+        .bg-theme-red {
+            background-color: #D02034;
+        }
+
+        /* Red Theme Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #D02034;
+            border-radius: 4px;
         }
 
         /* Animated Grid Background */
@@ -1571,7 +1596,7 @@
 
                                 className={`flex-1 py-3 px-6 rounded-xl font-bold text-white transition-all ${isConnecting ? 'bg-slate-400 cursor-not-allowed'
 
-                                    : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg shadow-purple-500/30'}`}
+                                    : 'btn-gradient-01 shadow-lg shadow-purple-500/30'}`}
 
                             >
 
@@ -1671,13 +1696,13 @@
 
                                     style={{ animationDelay: `${index * 0.05}s` }}
 
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group ripple-container hover-lift btn-press slide-in-right ${activeTab === item.id ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/50 scale-up'
+                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group ripple-container hover-lift btn-press slide-in-right ${activeTab === item.id ? 'btn-gradient-02 text-white shadow-lg shadow-red-500/50 scale-up'
 
-                                        : 'hover:bg-purple-900/20 hover:text-purple-100 hover:shadow-lg hover:shadow-purple-500/10'}`}
+                                        : 'hover:bg-white/5 hover:text-white hover:shadow-lg hover:shadow-red-500/10'}`}
 
                                 >
 
-                                    <Icon name={item.icon} size={20} className={`${activeTab === item.id ? "text-white" : "text-purple-400 group-hover:text-purple-200"} transition-all duration-300`} />
+                                    <Icon name={item.icon} size={20} className={`${activeTab === item.id ? "text-white" : "text-slate-400 group-hover:text-white"} transition-all duration-300`} />
 
                                     <span className="font-medium text-base">{item.label}</span>
 
