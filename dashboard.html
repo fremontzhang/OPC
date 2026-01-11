@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>七星银河</title>
+    <link rel="icon" type="image/png" href="logo.png" />
 
     <!-- Tailwind CSS -->
 
@@ -2708,7 +2709,7 @@
 
                                         { label: '分享', value: (post.shares || 0).toLocaleString(), icon: 'share-2', color: 'text-pink-500' },
 
-                                        { label: '总销售额', value: `¥${(post.gmv || 0).toLocaleString()}`, icon: 'shopping-bag', color: 'text-amber-500' }
+                                        { label: '总收入', value: `$${(post.gmv || 0).toLocaleString()}`, icon: 'shopping-bag', color: 'text-amber-500' }
 
                                     ].map((stat, i) => (
 
