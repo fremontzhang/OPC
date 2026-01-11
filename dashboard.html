@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>七星银河 - Dashboard</title>
+    <title>七星银河</title>
 
     <!-- Tailwind CSS -->
 
@@ -1870,7 +1870,7 @@
                                                 <div className="w-8 h-0.5 bg-white/30 rounded-full"></div>
                                             </div>
                                             <div className="flex items-baseline gap-2 mt-4">
-                                                <span className="text-xl font-black opacity-60">¥</span>
+                                                <span className="text-xl font-black opacity-60">$</span>
                                                 <span className="text-3xl font-black tracking-tighter drop-shadow-2xl">
                                                     {data.funnel.gmv.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
                                                 </span>
@@ -1884,7 +1884,7 @@
                         <div className="flex flex-col gap-6">
                             {[
                                 { label: '点击率', value: `${data.funnel.engagement_rate}%`, icon: 'target', color: 'indigo', sub: '点击/触达比例' },
-                                { label: '总收益', value: `¥${data.funnel.gmv.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`, icon: 'dollar-sign', color: 'emerald', sub: '单次点击均收', dark: true },
+                                { label: '总收益', value: `$${data.funnel.gmv.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`, icon: 'dollar-sign', color: 'emerald', sub: '单次点击均收', dark: true },
                                 { label: '帖子数量', value: `${data.posts.length}`, icon: 'zap', color: 'orange', sub: '已追踪内容数' }
                             ].map((card, i) => (
                                 <div key={i} className={`${card.dark ? 'bg-white/5 border-white/10 shadow-2xl' : 'bg-white/5 border-white/10'} rounded-[32px] p-8 border hover:bg-white/[0.08] transition-all duration-300 group relative overflow-hidden backdrop-blur-sm`}>
@@ -1924,7 +1924,7 @@
                                         <th className="p-8 text-white/80">发布渠道</th>
                                         <th className="p-8 text-center text-white/80">播放量</th>
                                         <th className="p-8 text-center text-white/80">互动数据</th>
-                                        <th className="p-8 text-right pr-10 text-white/80">预估收益 (CNY)</th>
+                                        <th className="p-8 text-right pr-10 text-white/80">预估收益 (USD)</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
@@ -2037,7 +2037,7 @@
                                             <td className="p-8 text-right pr-10">
                                                 <div className="flex flex-col items-end">
                                                     <div className="flex items-baseline gap-1.5">
-                                                        <span className="text-[10px] font-black text-emerald-500/50">¥</span>
+                                                        <span className="text-[10px] font-black text-emerald-500/50">$</span>
                                                         <span className="text-3xl font-black text-emerald-400 tracking-tighter font-mono">
                                                             {Math.floor(post.gmv || 0).toLocaleString()}
                                                         </span>
@@ -2361,7 +2361,7 @@
                         items: [
                             { id: 1, title: '《霸道总裁爱上我》 Ep.1 - 逆袭归来', thumbnail: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?w=200&h=280&fit=crop', platforms: { tiktok: 'done', youtube: 'done', fb: 'processing' } },
                             { id: 2, title: '《霸道总裁爱上我》 Ep.2 - 豪门恩怨', thumbnail: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=200&h=280&fit=crop', platforms: { tiktok: 'done', youtube: 'processing', fb: 'pending' } },
-                            { id: 3, title: '《霸道总裁爱上我》 Ep.3 - 真相大白', thumbnail: 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=200&h=280&fit=crop', platforms: { tiktok: 'processing', youtube: 'pending', fb: 'pending' } },
+                            { id: 3, title: '《霸道总裁爱上我》 Ep.3 - 真相大白', thumbnail: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=200&h=280&fit=crop', platforms: { tiktok: 'processing', youtube: 'pending', fb: 'pending' } },
                             { id: 4, title: '《霸道总裁爱上我》 Ep.4 - sweet love', thumbnail: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=200&h=280&fit=crop', platforms: { tiktok: 'pending', youtube: 'pending', fb: 'pending' } },
                         ]
                     };
@@ -3109,7 +3109,7 @@
                                 </div>
                                 <div className="flex items-center gap-2 text-emerald-500 font-black text-xs">
                                     <Icon name="dollar-sign" size={14} />
-                                    <span>¥{(post.gmv || 0).toLocaleString()}</span>
+                                    <span>${(post.gmv || 0).toLocaleString()}</span>
                                 </div>
 
                             </div>
@@ -6040,7 +6040,7 @@
                                         }
                                         const absHash = Math.abs(hash);
                                         const exposure = Math.floor(absHash % 300 + 220) + '%';
-                                        const income = '¥' + Math.floor(absHash % 4000 + 3200).toLocaleString();
+                                        const income = '$' + Math.floor(absHash % 4000 + 3200).toLocaleString();
 
                                         // 核心逻辑：小说助手必须是 2m，其他随机单位且取整
                                         let time;
@@ -6191,7 +6191,7 @@
 
                                 <div className="mt-4 inline-flex items-baseline gap-1">
 
-                                    <span className="text-sm font-bold text-slate-400">¥</span>
+                                    <span className="text-sm font-bold text-slate-400">$</span>
 
                                     <span className="text-4xl font-black text-slate-900 tracking-tight">{agent.price.replace('¥', '')}</span>
 
