@@ -1753,10 +1753,10 @@
         };
 
         const AIInsightCard = ({ data }) => {
-            const [activeInsight, setActiveInsight] = useState(0);
+            const [activeInsight, setActiveInsight] = React.useState(0);
 
             // Mock Intelligence Engine
-            const insights = useMemo(() => {
+            const insights = React.useMemo(() => {
                 if (!data) return [];
 
                 const items = [];
