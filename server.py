@@ -842,11 +842,6 @@ def init_db():
             ''', official_ones)
             
         # Delta Update: Add "Meteor Shower" Series Agents if missing
-        params_check = ("流星雨发布达人",)
-        check_delta = conn.execute("SELECT COUNT(*) as cnt FROM ai_agents WHERE name = ?", params_check).fetchone()['cnt']
-        
-        if check_delta == 0:
-            new_agents = [
         # Delta Seeding 2: AI Publishing Expert (Renamed from Meteor Shower)
         expert_agent = conn.execute("SELECT id FROM ai_agents WHERE name = 'AI 发布专家'").fetchone()
         
