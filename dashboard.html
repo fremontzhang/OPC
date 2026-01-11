@@ -1752,6 +1752,96 @@
 
         };
 
+        const AIInsightCard = ({ data }) => {
+            const [activeInsight, setActiveInsight] = useState(0);
+
+            // Mock Intelligence Engine
+            const insights = useMemo(() => {
+                if (!data) return [];
+
+                const items = [];
+
+                // 1. Revenue Insight
+                const revenueChange = '+15%'; // Mock
+                items.push({
+                    type: 'achievement',
+                    icon: 'trending-up',
+                    color: 'text-emerald-400',
+                    bg: 'bg-emerald-500/10',
+                    border: 'border-emerald-500/20',
+                    title: '收益逆势增长',
+                    desc: `昨日总收益 $${data.funnel.gmv.toLocaleString()}，环比增长 ${revenueChange}，而且您的《霸道总裁》系列在 TikTok 表现亮眼。`,
+                    action: '查看详情'
+                });
+
+                // 2. Engagement Warning
+                const lowEngagePlatform = 'Facebook';
+                items.push({
+                    type: 'alert',
+                    icon: 'alert-triangle',
+                    color: 'text-amber-400',
+                    bg: 'bg-amber-500/10',
+                    border: 'border-amber-500/20',
+                    title: '互动率预警',
+                    desc: `${lowEngagePlatform} 平台的互动率下降了 20%，建议检查封面图是否过于平淡，或尝试更具冲突感的标题。`,
+                    action: '一键优化封面'
+                });
+
+                // 3. Opportunity
+                items.push({
+                    type: 'opportunity',
+                    icon: 'zap',
+                    color: 'text-purple-400',
+                    bg: 'bg-purple-500/10',
+                    border: 'border-purple-500/20',
+                    title: '流量蓝海发现',
+                    desc: '检测到周末晚间 8-10 点是短剧流量高峰，建议本周六增加 2 条定时发布任务，预计提升 30% 曝光。',
+                    action: '去排期'
+                });
+
+                return items;
+            }, [data]);
+
+            return (
+                <div className="glass-card rounded-[24px] p-6 border border-white/10 relative overflow-hidden group">
+                    {/* AI Glow Effect */}
+                    <div className="absolute -top-20 -right-20 w-60 h-60 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none animate-pulse"></div>
+
+                    <div className="relative z-10 flex flex-col md:flex-row gap-6">
+                        {/* Left: Avatar & Title */}
+                        <div className="flex-shrink-0 flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl border border-white/5 w-full md:w-48 text-center">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 mb-3 animate-[bounce_3s_infinite]">
+                                <Icon name="sparkles" size={20} className="text-white" />
+                            </div>
+                            <h3 className="text-white font-bold text-lg leading-tight">AI 智囊团</h3>
+                            <p className="text-white/40 text-xs mt-1 font-mono">INTELLIGENCE</p>
+                        </div>
+
+                        {/* Right: Insights Carousel */}
+                        <div className="flex-1 overflow-hidden relative">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
+                                {insights.map((item, idx) => (
+                                    <div key={idx} className={`relative p-4 rounded-xl border ${item.border} ${item.bg} hover:bg-opacity-20 transition-all cursor-pointer group/card flex flex-col gap-3`}>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <Icon name={item.icon} size={16} className={item.color} />
+                                            <span className={`text-sm font-bold ${item.color.replace('text-', 'text-opacity-90 ')}`}>{item.title}</span>
+                                        </div>
+                                        <p className="text-white/70 text-xs leading-relaxed line-clamp-3">
+                                            {item.desc}
+                                        </p>
+                                        <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-bold text-white/40 group-hover/card:text-white transition-colors">
+                                            <span>{item.action}</span>
+                                            <Icon name="arrow-right" size={10} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
         const AnalyticsView = ({ showStatus }) => {
             const [data, setData] = React.useState(null);
             const [loading, setLoading] = React.useState(true);
@@ -1823,6 +1913,9 @@
                             </div>
                         </div>
                     </div>
+
+                    {/* AI Insight Section */}
+                    <AIInsightCard data={data} />
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div className="lg:col-span-2 glass-card rounded-[32px] p-8 relative overflow-hidden flex flex-col min-h-[500px] border border-blue-500/20 shadow-2xl bg-slate-950/50">
