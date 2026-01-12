@@ -2264,7 +2264,18 @@
                                             <td className="p-8">
                                                 <div className="flex items-center gap-3">
                                                     <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[10px] shadow-sm border border-blue-100 overflow-hidden">
-                                                        {post.avatar ? <img src={post.avatar} className="w-full h-full object-cover" /> : CURRENT_USER.initials}
+                                                        {post.avatar ? (
+                                                            <img
+                                                                src={post.avatar}
+                                                                className="w-full h-full object-cover"
+                                                                onError={(e) => {
+                                                                    e.target.style.display = 'none';
+                                                                    e.target.parentNode.innerText = post.account.substring(0, 2).toUpperCase();
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            CURRENT_USER.initials
+                                                        )}
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-black text-white/80">{post.account}</p>
@@ -2274,9 +2285,14 @@
                                             </td>
                                             <td className="p-8 text-center bg-white/[0.02]">
                                                 <span className="text-3xl font-black text-white tracking-tighter">{post.views.toLocaleString()}</span>
-                                                <p className={`text-xs font-bold mt-2 uppercase tracking-widest ${post.views > 50000 ? 'text-red-400' : post.views > 10000 ? 'text-orange-400' : 'text-emerald-400'}`}>
-                                                    {post.views > 50000 ? '爆款' : post.views > 10000 ? '潜力' : '平稳'}
-                                                </p>
+                                                <div className={`flex items-center justify-center gap-1 mt-2 ${post.views > 50000 ? 'text-red-400' : post.views > 10000 ? 'text-orange-400' : 'text-emerald-400'}`}>
+                                                    <p className="text-xs font-bold uppercase tracking-widest">
+                                                        {post.views > 50000 ? '爆款' : post.views > 10000 ? '潜力' : '平稳'}
+                                                    </p>
+                                                    {post.views > 10000 && post.views <= 50000 && (
+                                                        <Icon name="trending-up" size={12} className="stroke-[3]" />
+                                                    )}
+                                                </div>
                                             </td>
                                             <td className="p-8 text-center">
                                                 <div className="flex flex-col items-center">
@@ -2291,8 +2307,8 @@
                                             </td>
                                             <td className="p-8 text-right pr-10">
                                                 <div className="flex flex-col items-end">
-                                                    <div className="flex items-baseline gap-1.5">
-                                                        <span className="text-[10px] font-black text-emerald-500/50">$</span>
+                                                    <div className="flex items-baseline">
+                                                        <span className="text-2xl font-black text-emerald-500/50 mr-1.5">$</span>
                                                         <span className="text-3xl font-black text-emerald-400 tracking-tighter font-mono">
                                                             {Math.floor(post.gmv || 0).toLocaleString()}
                                                         </span>
