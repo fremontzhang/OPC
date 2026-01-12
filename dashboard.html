@@ -1991,8 +1991,17 @@
 
             return (
                 <>
-                    <AIOptimizationModal isOpen={showOptimization} onClose={() => setShowOptimization(false)} />
-                    <AIScheduleModal isOpen={showSchedule} onClose={() => setShowSchedule(false)} />
+                    <AIOptimizationModal
+                        isOpen={showOptimization}
+                        onClose={() => setShowOptimization(false)}
+                        data={data}
+                        onConfirm={() => showToast('已应用优化并同步至 Facebook 队列！')}
+                    />
+                    <AIScheduleModal
+                        isOpen={showSchedule}
+                        onClose={() => setShowSchedule(false)}
+                        onConfirm={() => showToast('已加入发布队列：周六 20:00')}
+                    />
 
                     <div className="glass-card rounded-[24px] p-6 border border-white/10 relative overflow-hidden group">
                         {/* AI Glow Effect */}
