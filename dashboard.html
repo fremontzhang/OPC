@@ -2053,6 +2053,13 @@
             const [loading, setLoading] = React.useState(true);
             const [syncing, setSyncing] = React.useState(false);
             const [activePost, setActivePost] = React.useState(null);
+            const [showOptimization, setShowOptimization] = React.useState(false);
+            const [showSchedule, setShowSchedule] = React.useState(false);
+            const [toast, setToast] = React.useState(null);
+
+            const showToast = (message, type = 'success') => {
+                setToast({ message, type });
+            };
 
             const fetchAnalytics = async (sync = false) => {
                 if (sync) setSyncing(true);
