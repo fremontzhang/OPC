@@ -793,6 +793,8 @@ def init_db():
         purchases INTEGER DEFAULT 0,
         rating FLOAT DEFAULT 5.0,
         status TEXT,
+        type TEXT DEFAULT 'DEFAULT',
+        capabilities TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     ''')
@@ -827,6 +829,20 @@ def init_db():
                 conn.commit()
             except Exception as e:
                 print(f"Migration trace (harmless if already TEXT): {e}")
+
+        # --- Schema Migration Patch 2: ensure columns exist ---
+        # Robust migration: check each column independently
+        encure_cols = ['type', 'capabilities', 'status']
+        for col in encure_cols:
+            try:
+                conn.execute(f"SELECT {col} FROM ai_agents LIMIT 1")
+            except Exception:
+                print(f"Migrating schema: Adding '{col}' column to ai_agents")
+                try:
+                    conn.execute(f"ALTER TABLE ai_agents ADD COLUMN {col} TEXT DEFAULT ''")
+                    conn.commit()
+                except Exception as e:
+                    print(f"Migration error for {col} (ignored if harmless): {e}")
 
         # Check if official capabilities init needed
         count = conn.execute("SELECT COUNT(*) as cnt FROM ai_agents").fetchone()['cnt']

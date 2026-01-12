@@ -1752,18 +1752,170 @@
 
         };
 
-        const AIInsightCard = ({ data }) => {
-            const [activeInsight, setActiveInsight] = React.useState(0);
+        const AIOptimizationModal = ({ isOpen, onClose }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
+                    <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 max-w-4xl w-full shadow-2xl relative animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+                        <button onClick={onClose} className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors">
+                            <Icon name="x" size={24} />
+                        </button>
 
-            // Mock Intelligence Engine
-            const insights = React.useMemo(() => {
-                if (!data) return [];
+                        <div className="flex items-center gap-3 mb-8">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-lg shadow-amber-500/20">
+                                <Icon name="wand" size={20} />
+                            </div>
+                            <div>
+                                <h3 className="text-2xl font-black text-white">AI 创意工坊</h3>
+                                <p className="text-white/40 text-sm">针对 Facebook 平台用户偏好，自动生成高转化封面</p>
+                            </div>
+                        </div>
 
-                const items = [];
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
+                            {/* Before */}
+                            <div className="space-y-3 opacity-60 grayscale-[0.5] hover:opacity-100 hover:grayscale-0 transition-all">
+                                <div className="aspect-video bg-slate-800 rounded-2xl overflow-hidden border border-white/5 relative group">
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <span className="text-white/20 font-black text-4xl">ORIGINAL</span>
+                                    </div>
+                                    <div className="absolute top-2 left-2 px-2 py-1 bg-black/50 rounded text-xs text-white">当前封面</div>
+                                </div>
+                                <div className="flex justify-between text-xs text-white/40">
+                                    <span>点击率 (CTR)</span>
+                                    <span className="text-amber-500">1.2% (Low)</span>
+                                </div>
+                            </div>
 
-                // 1. Revenue Insight
-                const revenueChange = '+15%'; // Mock
-                items.push({
+                            {/* Arrow */}
+                            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:flex flex-col items-center justify-center w-12 h-12 bg-blue-600 rounded-full shadow-xl shadow-blue-500/30 border-4 border-slate-900">
+                                <Icon name="arrow-right" size={20} className="text-white animate-pulse" />
+                            </div>
+
+                            {/* After */}
+                            <div className="space-y-3 relative">
+                                <div className="absolute -inset-1 bg-gradient-to-br from-blue-500 to-purple-600 rounded-[18px] blur opacity-40 animate-pulse"></div>
+                                <div className="aspect-video bg-slate-700/50 rounded-2xl overflow-hidden border border-white/20 relative shadow-2xl group cursor-pointer ring-2 ring-blue-500/50">
+                                    {/* Mock Generated Cover */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 to-purple-900 flex flex-col items-center justify-center text-center p-4">
+                                        <h1 className="text-3xl font-black text-white tracking-tighter drop-shadow-lg leading-none transform -rotate-2">
+                                            WARNING:<br />
+                                            <span className="text-yellow-400">DON'T WATCH</span><br />
+                                            ALONE!
+                                        </h1>
+                                    </div>
+                                    <div className="absolute top-2 left-2 px-2 py-1 bg-blue-600 rounded text-xs text-white font-bold flex items-center gap-1">
+                                        <Icon name="sparkles" size={10} /> AI 推荐
+                                    </div>
+                                    <div className="absolute bottom-2 right-2 flex gap-1">
+                                        {['冲突感', '高饱和', '悬念文字'].map(tag => (
+                                            <span key={tag} className="px-1.5 py-0.5 bg-black/40 backdrop-blur rounded text-[10px] text-white/80">{tag}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="flex justify-between text-xs text-white/40">
+                                    <span>预估点击率</span>
+                                    <span className="text-emerald-400 font-bold">4.8% (+300%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-10 flex gap-4 justify-end">
+                            <button onClick={onClose} className="px-6 py-3 rounded-xl hover:bg-white/5 text-white/60 text-sm font-bold transition-colors">暂不优化</button>
+                            <button onClick={() => { alert('已应用优化并同步至 Facebook 队列！'); onClose(); }} className="px-8 py-3 btn-gradient-01 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all flex items-center gap-2">
+                                <Icon name="check" size={16} />
+                                应用并同步
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const AIScheduleModal = ({ isOpen, onClose }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
+                    <div className="bg-slate-900 border border-white/10 rounded-3xl p-6 max-w-lg w-full shadow-2xl relative animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
+                                <Icon name="calendar" size={20} />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-black text-white">智能排期确认</h3>
+                                <p className="text-white/40 text-xs">AI 已为您捕捉到即将来临的流量高峰</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-white/5 rounded-2xl p-4 border border-white/5 space-y-4 mb-6">
+                            <div className="flex items-center justify-between p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+                                <div className="flex items-center gap-3">
+                                    <Icon name="clock" size={18} className="text-blue-400" />
+                                    <div>
+                                        <p className="text-xs text-blue-300 font-bold uppercase">Recommended Time</p>
+                                        <p className="text-white font-bold text-lg">本周六 20:00</p>
+                                    </div>
+                                </div>
+                                <span className="px-2 py-1 bg-blue-600 text-white text-xs font-bold rounded-lg animate-pulse">HOT 🔥</span>
+                            </div>
+                            <div className="p-3">
+                                <p className="text-xs text-slate-400 mb-2 font-bold uppercase tracking-wider">推荐发布内容</p>
+                                <div className="flex items-center gap-3 p-2 hover:bg-white/5 rounded-lg transition-colors cursor-pointer border border-transparent hover:border-white/10">
+                                    <div className="w-10 h-14 bg-slate-800 rounded bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=200)' }}></div>
+                                    <div>
+                                        <p className="text-white text-sm font-bold truncate w-48">《霸道总裁爱上我》 Ep.5</p>
+                                        <p className="text-white/40 text-xs">剧情高潮 / 悬疑 / 爱情</p>
+                                    </div>
+                                    <Icon name="check-circle" size={18} className="text-emerald-500 ml-auto" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-3">
+                            <button onClick={onClose} className="flex-1 py-3 rounded-xl hover:bg-white/5 text-white/60 text-sm font-bold transition-colors">手动调整</button>
+                            <button onClick={() => { alert('已加入发布队列：周六 20:00'); onClose(); }} className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all">
+                                确认排期
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+                const AIInsightCard = ({ data }) => {
+            const [showOptimization, setShowOptimization] = React.useState(false);
+            const [showSchedule, setShowSchedule] = React.useState(false);
+
+            if (!data) return null;
+
+            // Direct definition to ensure handlers are fresh and valid
+            const revenueChange = '+15%'; 
+            
+            // Handlers defined explicitly
+            const handleDetailClick = (e) => {
+                e.preventDefault();
+                e.preventDefault(); // Double ensure.
+                e.stopPropagation();
+                console.log('Scrolling to table');
+                const table = document.querySelector('table');
+                if (table) table.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            };
+            
+            const handleOptClick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Opening Optimization Modal');
+                setShowOptimization(true);
+            };
+
+            const handleScheduleClick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Opening Schedule Modal');
+                setShowSchedule(true);
+            };
+
+            const items = [
+                {
                     type: 'achievement',
                     icon: 'trending-up',
                     color: 'text-emerald-400',
@@ -1771,24 +1923,21 @@
                     border: 'border-emerald-500/20',
                     title: '收益逆势增长',
                     desc: `昨日总收益 $${data.funnel.gmv.toLocaleString()}，环比增长 ${revenueChange}，而且您的《霸道总裁》系列在 TikTok 表现亮眼。`,
-                    action: '查看详情'
-                });
-
-                // 2. Engagement Warning
-                const lowEngagePlatform = 'Facebook';
-                items.push({
+                    action: '查看详情',
+                    handler: handleDetailClick
+                },
+                {
                     type: 'alert',
                     icon: 'alert-triangle',
                     color: 'text-amber-400',
                     bg: 'bg-amber-500/10',
                     border: 'border-amber-500/20',
                     title: '互动率预警',
-                    desc: `${lowEngagePlatform} 平台的互动率下降了 20%，建议检查封面图是否过于平淡，或尝试更具冲突感的标题。`,
-                    action: '一键优化封面'
-                });
-
-                // 3. Opportunity
-                items.push({
+                    desc: `Facebook 平台的互动率下降了 20%，建议检查封面图是否过于平淡，或尝试更具冲突感的标题。`,
+                    action: '一键优化封面',
+                    handler: handleOptClick
+                },
+                {
                     type: 'opportunity',
                     icon: 'zap',
                     color: 'text-purple-400',
@@ -1796,49 +1945,61 @@
                     border: 'border-purple-500/20',
                     title: '流量蓝海发现',
                     desc: '检测到周末晚间 8-10 点是短剧流量高峰，建议本周六增加 2 条定时发布任务，预计提升 30% 曝光。',
-                    action: '去排期'
-                });
-
-                return items;
-            }, [data]);
+                    action: '去排期',
+                    handler: handleScheduleClick
+                }
+            ];
 
             return (
-                <div className="glass-card rounded-[24px] p-6 border border-white/10 relative overflow-hidden group">
-                    {/* AI Glow Effect */}
-                    <div className="absolute -top-20 -right-20 w-60 h-60 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none animate-pulse"></div>
-
-                    <div className="relative z-10 flex flex-col md:flex-row gap-6">
-                        {/* Left: Avatar & Title */}
-                        <div className="flex-shrink-0 flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl border border-white/5 w-full md:w-48 text-center">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 mb-3 animate-[bounce_3s_infinite]">
-                                <Icon name="sparkles" size={20} className="text-white" />
+                <>
+                    <AIOptimizationModal isOpen={showOptimization} onClose={() => setShowOptimization(false)} />
+                    <AIScheduleModal isOpen={showSchedule} onClose={() => setShowSchedule(false)} />
+                    
+                    <div className="glass-card rounded-[24px] p-6 border border-white/10 relative overflow-hidden group">
+                        {/* AI Glow Effect */}
+                        <div className="absolute -top-20 -right-20 w-60 h-60 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none animate-pulse"></div>
+                        
+                        <div className="relative z-10 flex flex-col md:flex-row gap-6">
+                            {/* Left: Avatar & Title */}
+                            <div className="flex-shrink-0 flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl border border-white/5 w-full md:w-48 text-center">
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 mb-3 animate-[bounce_3s_infinite]">
+                                    <Icon name="sparkles" size={20} className="text-white" />
+                                </div>
+                                <h3 className="text-white font-bold text-lg leading-tight">AI 智囊团</h3>
+                                <p className="text-white/40 text-xs mt-1 font-mono">INTELLIGENCE</p>
                             </div>
-                            <h3 className="text-white font-bold text-lg leading-tight">AI 智囊团</h3>
-                            <p className="text-white/40 text-xs mt-1 font-mono">INTELLIGENCE</p>
-                        </div>
 
-                        {/* Right: Insights Carousel */}
-                        <div className="flex-1 overflow-hidden relative">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
-                                {insights.map((item, idx) => (
-                                    <div key={idx} className={`relative p-4 rounded-xl border ${item.border} ${item.bg} hover:bg-opacity-20 transition-all cursor-pointer group/card flex flex-col gap-3`}>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <Icon name={item.icon} size={16} className={item.color} />
-                                            <span className={`text-sm font-bold ${item.color.replace('text-', 'text-opacity-90 ')}`}>{item.title}</span>
+                            {/* Right: Insights Carousel */}
+                            <div className="flex-1 overflow-hidden relative">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
+                                    {items.map((item, idx) => (
+                                        <div 
+                                            key={idx} 
+                                            onClick={item.handler} 
+                                            className="relative z-50 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-opacity-20 transition-all cursor-pointer group/card flex flex-col gap-3 hover:-translate-y-1 pointer-events-auto"
+                                            style={{ borderColor: item.border.split('-')[1] ? '' : 'rgba(255,255,255,0.1)' }} 
+                                        >
+                                            <div className={`absolute inset-0 border rounded-xl opacity-50 ${item.border}`}></div>
+                                            <div className={`absolute inset-0 ${item.bg} opacity-20 rounded-xl`}></div>
+                                            
+                                            <div className="relative z-10 flex items-center gap-2 mb-1 pointer-events-none">
+                                                <Icon name={item.icon} size={16} className={item.color} />
+                                                <span className={`text-sm font-bold ${item.color.replace('text-', 'text-opacity-90 ')}`}>{item.title}</span>
+                                            </div>
+                                            <p className="relative z-10 text-white/70 text-xs leading-relaxed line-clamp-3 pointer-events-none">
+                                                {item.desc}
+                                            </p>
+                                            <div className="relative z-10 mt-auto pt-2 flex items-center gap-1 text-xs font-bold text-white/40 group-hover/card:text-white transition-colors pointer-events-none">
+                                                <span>{item.action}</span>
+                                                <Icon name="arrow-right" size={10} />
+                                            </div>
                                         </div>
-                                        <p className="text-white/70 text-xs leading-relaxed line-clamp-3">
-                                            {item.desc}
-                                        </p>
-                                        <div className="mt-auto pt-2 flex items-center gap-1 text-xs font-bold text-white/40 group-hover/card:text-white transition-colors">
-                                            <span>{item.action}</span>
-                                            <Icon name="arrow-right" size={10} />
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </>
             );
         };
 
