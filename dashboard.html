@@ -1771,88 +1771,110 @@
         };
 
         const AIOptimizationModal = ({ isOpen, onClose, data, onConfirm }) => {
+            const [isSuccess, setIsSuccess] = React.useState(false);
+
+            React.useEffect(() => {
+                if (isOpen) setIsSuccess(false);
+            }, [isOpen]);
+
             if (!isOpen) return null;
+
             return (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
                     <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 max-w-4xl w-full shadow-2xl relative animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
-                        <button onClick={onClose} className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors">
-                            <Icon name="x" size={24} />
-                        </button>
-
-                        <div className="flex items-center gap-3 mb-8">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-lg shadow-amber-500/20">
-                                <Icon name="wand" size={20} />
+                        {isSuccess ? (
+                            <div className="flex flex-col items-center justify-center py-12 text-center">
+                                <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6 animate-in zoom-in duration-300">
+                                    <Icon name="check" size={40} className="text-emerald-400" />
+                                </div>
+                                <h3 className="text-3xl font-black text-white mb-2">已成功应用优化</h3>
+                                <p className="text-white/40 mb-8 max-w-sm mx-auto">新的封面已同步至 Facebook 发布队列，系统将自动进行 A/B 测试以确保最佳转化效果。</p>
+                                <button onClick={onClose} className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-sm font-bold transition-all">
+                                    关闭
+                                </button>
                             </div>
-                            <div>
-                                <h3 className="text-2xl font-black text-white">AI 创意工坊</h3>
-                                <p className="text-white/40 text-sm">针对 Facebook 平台用户偏好，自动生成高转化封面</p>
-                            </div>
-                        </div>
+                        ) : (
+                            <>
+                                <button onClick={onClose} className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors">
+                                    <Icon name="x" size={24} />
+                                </button>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
-                            {/* Before */}
-                            <div className="space-y-3 opacity-60 grayscale-[0.5] hover:opacity-100 hover:grayscale-0 transition-all">
-                                <div className="aspect-video bg-slate-800 rounded-2xl overflow-hidden border border-white/5 relative group">
-                                    {data?.thumbnail ? (
-                                        <img src={data.thumbnail} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <span className="text-white/20 font-black text-4xl">ORIGINAL</span>
+                                <div className="flex items-center gap-3 mb-8">
+                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                                        <Icon name="layout" size={20} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-black text-white">AI 内容优化</h3>
+                                        <p className="text-white/40 text-sm">针对 Facebook 平台用户偏好，自动生成高转化封面</p>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
+                                    {/* Before */}
+                                    <div className="space-y-3 opacity-60 grayscale-[0.5] hover:opacity-100 hover:grayscale-0 transition-all">
+                                        <div className="aspect-video bg-slate-800 rounded-2xl overflow-hidden border border-white/5 relative group">
+                                            {data?.thumbnail ? (
+                                                <img src={data.thumbnail} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <span className="text-white/20 font-black text-4xl">ORIGINAL</span>
+                                                </div>
+                                            )}
+                                            <div className="absolute top-2 left-2 px-2 py-1 bg-black/50 rounded text-xs text-white">当前封面</div>
                                         </div>
-                                    )}
-                                    <div className="absolute top-2 left-2 px-2 py-1 bg-black/50 rounded text-xs text-white">当前封面</div>
-                                </div>
-                                <div className="flex justify-between text-xs text-white/40">
-                                    <span>点击率 (CTR)</span>
-                                    <span className="text-amber-500">1.2% (Low)</span>
-                                </div>
-                            </div>
-
-                            {/* Arrow */}
-                            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:flex flex-col items-center justify-center w-12 h-12 bg-blue-600 rounded-full shadow-xl shadow-blue-500/30 border-4 border-slate-900">
-                                <Icon name="arrow-right" size={20} className="text-white animate-pulse" />
-                            </div>
-
-                            {/* After */}
-                            <div className="space-y-3 relative">
-                                <div className="absolute -inset-1 bg-gradient-to-br from-blue-500 to-purple-600 rounded-[18px] blur opacity-40 animate-pulse"></div>
-                                <div className="aspect-video bg-slate-700/50 rounded-2xl overflow-hidden border border-white/20 relative shadow-2xl group cursor-pointer ring-2 ring-blue-500/50">
-                                    {/* Mock Generated Cover */}
-                                    <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=600)' }}>
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
-                                        <div className="absolute bottom-4 left-4 right-4 text-left">
-                                            <h1 className="text-2xl font-black text-white leading-tight drop-shadow-lg">
-                                                <span className="text-yellow-400">CEO'S CONTRACT</span><br />
-                                                SECRET LOVER
-                                            </h1>
+                                        <div className="flex justify-between text-xs text-white/40">
+                                            <span>点击率 (CTR)</span>
+                                            <span className="text-amber-500">1.2% (Low)</span>
                                         </div>
                                     </div>
-                                    <div className="absolute top-2 left-2 px-2 py-1 bg-blue-600 rounded text-xs text-white font-bold flex items-center gap-1">
-                                        <Icon name="sparkles" size={10} /> AI 推荐
-                                    </div>
-                                    <div className="absolute bottom-2 right-2 flex gap-1">
-                                        {['冲突感', '高饱和', '悬念文字'].map(tag => (
-                                            <span key={tag} className="px-1.5 py-0.5 bg-black/40 backdrop-blur rounded text-[10px] text-white/80">{tag}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div className="flex justify-between text-xs text-white/40">
-                                    <span>预估点击率</span>
-                                    <span className="text-emerald-400 font-bold">4.8% (+300%)</span>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div className="mt-10 flex gap-4 justify-end">
-                            <button onClick={onClose} className="px-6 py-3 rounded-xl hover:bg-white/5 text-white/60 text-sm font-bold transition-colors">暂不优化</button>
-                            <button onClick={() => {
-                                if (onConfirm) onConfirm();
-                                onClose();
-                            }} className="px-8 py-3 btn-gradient-01 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all flex items-center gap-2">
-                                <Icon name="check" size={16} />
-                                应用并同步
-                            </button>
-                        </div>
+                                    {/* Arrow */}
+                                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:flex flex-col items-center justify-center w-12 h-12 bg-blue-600 rounded-full shadow-xl shadow-blue-500/30 border-4 border-slate-900">
+                                        <Icon name="arrow-right" size={20} className="text-white animate-pulse" />
+                                    </div>
+
+                                    {/* After */}
+                                    <div className="space-y-3 relative">
+                                        <div className="absolute -inset-1 bg-gradient-to-br from-blue-500 to-purple-600 rounded-[18px] blur opacity-40 animate-pulse"></div>
+                                        <div className="aspect-video bg-slate-700/50 rounded-2xl overflow-hidden border border-white/20 relative shadow-2xl group cursor-pointer ring-2 ring-blue-500/50">
+                                            {/* Mock Generated Cover */}
+                                            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=600)' }}>
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                                                <div className="absolute bottom-4 left-4 right-4 text-left">
+                                                    <h1 className="text-2xl font-black text-white leading-tight drop-shadow-lg">
+                                                        <span className="text-yellow-400">CEO'S CONTRACT</span><br />
+                                                        SECRET LOVER
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                            <div className="absolute top-2 left-2 px-2 py-1 bg-blue-600 rounded text-xs text-white font-bold flex items-center gap-1">
+                                                <Icon name="sparkles" size={10} /> AI 推荐
+                                            </div>
+                                            <div className="absolute bottom-2 right-2 flex gap-1">
+                                                {['冲突感', '高饱和', '悬念文字'].map(tag => (
+                                                    <span key={tag} className="px-1.5 py-0.5 bg-black/40 backdrop-blur rounded text-[10px] text-white/80">{tag}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between text-xs text-white/40">
+                                            <span>预估点击率</span>
+                                            <span className="text-emerald-400 font-bold">4.8% (+300%)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="mt-10 flex gap-4 justify-end">
+                                    <button onClick={onClose} className="px-6 py-3 rounded-xl hover:bg-white/5 text-white/60 text-sm font-bold transition-colors">暂不优化</button>
+                                    <button onClick={() => {
+                                        if (onConfirm) onConfirm();
+                                        setIsSuccess(true);
+                                    }} className="px-8 py-3 btn-gradient-01 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all flex items-center gap-2">
+                                        <Icon name="check" size={16} />
+                                        应用并同步
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             );
@@ -1900,7 +1922,7 @@
                         <div className="flex gap-3">
                             <button onClick={onClose} className="flex-1 py-3 rounded-xl hover:bg-white/5 text-white/60 text-sm font-bold transition-colors">手动调整</button>
                             <button onClick={() => {
-                                onConfirm();
+                                if (onConfirm) onConfirm();
                                 onClose();
                             }} className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all">
                                 确认排期
@@ -2009,14 +2031,10 @@
                                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 mb-3 animate-[bounce_3s_infinite]">
                                     <Icon name="sparkles" size={20} className="text-white" />
                                 </div>
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
-                                    <Icon name="brain-circuit" size={20} />
-                                </div>
                                 <div>
                                     <h3 className="text-white font-bold text-lg leading-tight">数据参谋</h3>
                                     <p className="text-slate-400 text-xs mt-0.5">INTELLIGENCE</p>
                                 </div>
-                                <p className="text-white/40 text-xs mt-1 font-mono">INTELLIGENCE</p>
                             </div>
 
                             {/* Right: Insights Carousel */}
