@@ -1881,15 +1881,15 @@
             );
         }
 
-                const AIInsightCard = ({ data }) => {
+        const AIInsightCard = ({ data }) => {
             const [showOptimization, setShowOptimization] = React.useState(false);
             const [showSchedule, setShowSchedule] = React.useState(false);
 
             if (!data) return null;
 
             // Direct definition to ensure handlers are fresh and valid
-            const revenueChange = '+15%'; 
-            
+            const revenueChange = '+15%';
+
             // Handlers defined explicitly
             const handleDetailClick = (e) => {
                 e.preventDefault();
@@ -1899,7 +1899,7 @@
                 const table = document.querySelector('table');
                 if (table) table.scrollIntoView({ behavior: 'smooth', block: 'center' });
             };
-            
+
             const handleOptClick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1954,11 +1954,11 @@
                 <>
                     <AIOptimizationModal isOpen={showOptimization} onClose={() => setShowOptimization(false)} />
                     <AIScheduleModal isOpen={showSchedule} onClose={() => setShowSchedule(false)} />
-                    
+
                     <div className="glass-card rounded-[24px] p-6 border border-white/10 relative overflow-hidden group">
                         {/* AI Glow Effect */}
                         <div className="absolute -top-20 -right-20 w-60 h-60 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none animate-pulse"></div>
-                        
+
                         <div className="relative z-10 flex flex-col md:flex-row gap-6">
                             {/* Left: Avatar & Title */}
                             <div className="flex-shrink-0 flex flex-col items-center justify-center p-4 bg-white/5 rounded-2xl border border-white/5 w-full md:w-48 text-center">
@@ -1973,15 +1973,15 @@
                             <div className="flex-1 overflow-hidden relative">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
                                     {items.map((item, idx) => (
-                                        <div 
-                                            key={idx} 
-                                            onClick={item.handler} 
+                                        <div
+                                            key={idx}
+                                            onClick={item.handler}
                                             className="relative z-50 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-opacity-20 transition-all cursor-pointer group/card flex flex-col gap-3 hover:-translate-y-1 pointer-events-auto"
-                                            style={{ borderColor: item.border.split('-')[1] ? '' : 'rgba(255,255,255,0.1)' }} 
+                                            style={{ borderColor: item.border.split('-')[1] ? '' : 'rgba(255,255,255,0.1)' }}
                                         >
                                             <div className={`absolute inset-0 border rounded-xl opacity-50 ${item.border}`}></div>
                                             <div className={`absolute inset-0 ${item.bg} opacity-20 rounded-xl`}></div>
-                                            
+
                                             <div className="relative z-10 flex items-center gap-2 mb-1 pointer-events-none">
                                                 <Icon name={item.icon} size={16} className={item.color} />
                                                 <span className={`text-sm font-bold ${item.color.replace('text-', 'text-opacity-90 ')}`}>{item.title}</span>
@@ -6114,7 +6114,7 @@
 
                         <div className="absolute inset-0 bg-white/80 backdrop-blur-xl" onClick={onClose}></div>
 
-                        <div className="bg-white border border-slate-200 rounded-[40px] w-full max-w-2xl shadow-2xl relative animate-in zoom-in duration-300 overflow-hidden flex flex-col max-h-[90vh]" >
+                        <div className="bg-[#110C2D] border border-white/10 rounded-[40px] w-full max-w-2xl shadow-2xl relative animate-in zoom-in duration-300 overflow-hidden flex flex-col max-h-[90vh]" >
 
                             {/* Header Image Area */}
 
@@ -6148,7 +6148,7 @@
 
                                             <div className="flex items-center gap-3">
 
-                                                <span className="px-3 py-1 bg-teal-50 text-teal-600 text-[10px] font-bold rounded-full border border-teal-200 uppercase tracking-wider">
+                                                <span className="px-3 py-1 bg-white text-slate-900 text-[10px] font-bold rounded-full border border-white/20 uppercase tracking-wider">
 
                                                     {agent.tags?.[0] || 'AI Intelligence'}
 
@@ -6156,17 +6156,17 @@
 
                                             </div>
 
-                                            <h2 className="text-3xl font-bold text-slate-900 tracking-tight">{agent.name}</h2>
+                                            <h2 className="text-3xl font-bold text-white tracking-tight">{agent.name}</h2>
 
-                                            <p className="text-slate-500 text-sm">by <span className="text-slate-700 font-medium">{(agent.price === '官方能力' || agent.price === 'Official' || (agent.author && (agent.author.includes('官方') || agent.author.includes('Official')))) ? agent.author : stats.author}</span></p>
+                                            <p className="text-slate-400 text-sm">by <span className="text-slate-200 font-medium">{(agent.price === '官方能力' || agent.price === 'Official' || (agent.author && (agent.author.includes('官方') || agent.author.includes('Official')))) ? agent.author : stats.author}</span></p>
 
                                         </div>
 
                                     </div>
 
-                                    <button onClick={onClose} className="text-slate-400 hover:text-slate-700 transition-colors p-2 hover:bg-slate-100 rounded-full">
+                                    <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full">
 
-                                        <Icon name="plus" className="rotate-45" size={28} />
+                                        <Icon name="x" className="" size={28} />
 
                                     </button>
 
@@ -6180,110 +6180,58 @@
 
                                 <div className="space-y-4" >
 
-                                    <h3 className="text-slate-600 text-sm font-bold uppercase tracking-widest">您将获得</h3>
+                                    <h3 className="text-slate-400 text-sm font-medium">您将获得</h3>
 
                                     <div className="grid grid-cols-2 gap-4">
 
-                                        <div className="bg-slate-50 p-6 rounded-[24px] border border-slate-200 group hover:border-blue-300 transition-all">
-
-                                            <div className="flex items-start gap-4">
-
-                                                <div className="w-12 h-12 rounded-2xl bg-pink-50 text-pink-600 flex items-center justify-center shrink-0">
-
-                                                    <Icon name="file-text" size={24} />
-
-                                                </div>
-
-                                                <div>
-
-                                                    <p className="text-slate-900 font-bold text-sm">提示词模板</p>
-
-                                                    <p className="text-slate-500 text-[11px] mt-1 font-medium">12个核心提示词</p>
-
-                                                </div>
-
+                                        <div className="bg-[#1A1633] p-5 rounded-[24px] border border-white/5 hover:border-blue-500/50 transition-all flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
+                                                <Icon name="file-text" size={20} className="text-[#FF4D8F]" />
                                             </div>
-
+                                            <div>
+                                                <p className="text-white font-bold text-sm">提示词模板</p>
+                                                <p className="text-slate-400 text-[11px] mt-0.5">12个核心提示词</p>
+                                            </div>
                                         </div>
 
-                                        <div className="bg-slate-50 p-6 rounded-[24px] border border-slate-200 group hover:border-purple-300 transition-all">
-
-                                            <div className="flex items-start gap-4">
-
-                                                <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-
-                                                    <Icon name="database" size={24} />
-
-                                                </div>
-
-                                                <div>
-
-                                                    <p className="text-slate-900 font-bold text-sm">训练数据</p>
-
-                                                    <p className="text-slate-500 text-[11px] mt-1 font-medium">500+精选案例</p>
-
-                                                </div>
-
+                                        <div className="bg-[#1A1633] p-5 rounded-[24px] border border-white/5 hover:border-purple-500/50 transition-all flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
+                                                <Icon name="database" size={20} className="text-[#A855F7]" />
                                             </div>
-
+                                            <div>
+                                                <p className="text-white font-bold text-sm">训练数据</p>
+                                                <p className="text-slate-400 text-[11px] mt-0.5">500+精选案例</p>
+                                            </div>
                                         </div>
 
-                                        <div className="bg-slate-50 p-6 rounded-[24px] border border-slate-200 group hover:border-blue-300 transition-all">
-
-                                            <div className="flex items-start gap-4">
-
-                                                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-
-                                                    <Icon name="git-branch" size={24} />
-
-                                                </div>
-
-                                                <div>
-
-                                                    <p className="text-slate-900 font-bold text-sm">工作流程</p>
-
-                                                    <p className="text-slate-500 text-[11px] mt-1 font-medium">全链路自动化配置</p>
-
-                                                </div>
-
+                                        <div className="bg-[#1A1633] p-5 rounded-[24px] border border-white/5 hover:border-blue-500/50 transition-all flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
+                                                <Icon name="git-branch" size={20} className="text-[#3B82F6]" />
                                             </div>
-
+                                            <div>
+                                                <p className="text-white font-bold text-sm">工作流程</p>
+                                                <p className="text-slate-400 text-[11px] mt-0.5">全链路自动化配置</p>
+                                            </div>
                                         </div>
 
-                                        <div className="bg-slate-50 p-6 rounded-[24px] border border-slate-200 group hover:border-teal-300 transition-all">
-
-                                            <div className="flex items-start gap-4">
-
-                                                <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
-
-                                                    <Icon name="zap" size={24} />
-
-                                                </div>
-
-                                                <div>
-
-                                                    <p className="text-slate-900 font-bold text-sm">优化参数</p>
-
-                                                    <p className="text-slate-500 text-[11px] mt-1 font-medium">算法最佳设置</p>
-
-                                                </div>
-
+                                        <div className="bg-[#1A1633] p-5 rounded-[24px] border border-white/5 hover:border-teal-500/50 transition-all flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
+                                                <Icon name="zap" size={20} className="text-[#14B8A6]" />
                                             </div>
-
+                                            <div>
+                                                <p className="text-white font-bold text-sm">优化参数</p>
+                                                <p className="text-slate-400 text-[11px] mt-0.5">算法最佳设置</p>
+                                            </div>
                                         </div>
 
                                     </div>
 
                                 </div>
 
-                                <div className="bg-gradient-to-br from-slate-900/60 via-slate-900/40 to-slate-800/60 p-8 rounded-[32px] border border-white/10 relative overflow-hidden backdrop-blur-xl group">
+                                <div className="bg-[#131B2D] p-8 rounded-[32px] border border-white/5 relative overflow-hidden">
 
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 blur-[60px] rounded-full group-hover:bg-teal-500/20 transition-all duration-700"></div>
-
-                                    <h4 className="text-teal-400 text-base font-black uppercase tracking-widest mb-8 flex items-center gap-2">
-
-                                        <div className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse"></div>
-
+                                    <h4 className="text-[#4ADE80] text-sm font-medium mb-8 flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-[#4ADE80]"></div>
                                         使用 {agent.name || '智能体'} 的平均表现 </h4>
 
                                     {/* 动态生成该智能体的表现数据 */}
@@ -6297,7 +6245,6 @@
                                         const exposure = Math.floor(absHash % 300 + 220) + '%';
                                         const income = '$' + Math.floor(absHash % 4000 + 3200).toLocaleString();
 
-                                        // 核心逻辑：小说助手必须是 2m，其他随机单位且取整
                                         let time;
                                         if (agent.name.includes('小说')) {
                                             time = '2m';
@@ -6313,16 +6260,16 @@
                                         return (
                                             <div className="grid grid-cols-3 gap-8 relative z-10">
                                                 <div className="space-y-1">
-                                                    <p className="text-3xl font-black text-white tracking-tighter drop-shadow-sm">{exposure}</p>
-                                                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">曝光增长</p>
+                                                    <p className="text-3xl font-bold text-white tracking-tight">{exposure}</p>
+                                                    <p className="text-slate-400 text-[10px] font-medium">曝光增长</p>
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <p className="text-3xl font-black text-teal-400 tracking-tighter drop-shadow-md">{income}</p>
-                                                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">月均收入</p>
+                                                    <p className="text-3xl font-bold text-[#4ADE80] tracking-tight">{income}</p>
+                                                    <p className="text-slate-400 text-[10px] font-medium">月均收入</p>
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <p className="text-3xl font-black text-white tracking-tighter drop-shadow-sm">{time}</p>
-                                                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">平均制作时间</p>
+                                                    <p className="text-3xl font-bold text-white tracking-tight">{time}</p>
+                                                    <p className="text-slate-400 text-[10px] font-medium">平均制作时间</p>
                                                 </div>
                                             </div>
                                         );
@@ -6334,13 +6281,13 @@
 
                             {/* Footer / CTA */}
 
-                            <div className="p-8 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+                            <div className="p-8 bg-transparent border-t border-white/5 flex items-center justify-between">
 
                                 <div className="space-y-0.5" >
 
-                                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">订阅价格</p>
+                                    <p className="text-slate-400 text-[10px] font-medium">订阅价格</p>
 
-                                    <p className="text-2xl font-black text-slate-900">
+                                    <p className="text-2xl font-bold text-white">
                                         {(agent.price === '官方能力' || agent.price === 'Official' || agent.price === '免费' || agent.price === 'Free' || agent.price === '免费订阅' || agent.price === 'Free Subscription' || agent.price === '0' || agent.price === '¥0') ? (
                                             '免费'
                                         ) : (
@@ -6354,7 +6301,7 @@
 
                                     onClick={handleSubscribe}
 
-                                    className="px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-black text-sm shadow-xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                                    className="px-12 py-4 bg-[#3B5EFF] text-white rounded-[16px] font-medium text-sm hover:bg-blue-600 transition-all"
 
                                 >
 
