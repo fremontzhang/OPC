@@ -2012,7 +2012,7 @@
                     <AIOptimizationModal
                         isOpen={showOptimization}
                         onClose={() => setShowOptimization(false)}
-                        data={data}
+                        data={{ ...data, thumbnail: 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=600' }}
                         onConfirm={() => showToast('已应用优化并同步至 Facebook 队列！')}
                     />
                     <AIScheduleModal
