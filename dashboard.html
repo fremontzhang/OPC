@@ -1770,7 +1770,7 @@
             );
         };
 
-        const AIOptimizationModal = ({ isOpen, onClose, data }) => {
+        const AIOptimizationModal = ({ isOpen, onClose, data, onConfirm }) => {
             if (!isOpen) return null;
             return (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
@@ -1846,12 +1846,8 @@
                         <div className="mt-10 flex gap-4 justify-end">
                             <button onClick={onClose} className="px-6 py-3 rounded-xl hover:bg-white/5 text-white/60 text-sm font-bold transition-colors">暂不优化</button>
                             <button onClick={() => {
+                                if (onConfirm) onConfirm();
                                 onClose();
-                                // Assuming showToast is passed or handled via context in a real app, 
-                                // but here we are in a sub-component. 
-                                // Actually, AIOptimizationModal is defined INSIDE Dashboard in this file structure? 
-                                // Let's check... No, it's defined outside.
-                                // We need to pass showToast to it.
                             }} className="px-8 py-3 btn-gradient-01 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 hover:scale-105 transition-all flex items-center gap-2">
                                 <Icon name="check" size={16} />
                                 应用并同步
