@@ -1279,15 +1279,15 @@ def get_connected_accounts():
         
         # Inject fake X account for demo consistency
         if not any(acc['id'] == 'fake_x_1' for acc in result):
-            result.append({
+            {
                 "id": "fake_x_1",
                 "platform": "X (Twitter)",
-                "name": "My X Account",
-                "handle": "my_x_handle",
+                "name": "FremontFeng",
+                "handle": "FremontFeng",
                 "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=X&backgroundColor=000000",
                 "status": "active",
                 "type": "TWITTER"
-            })
+            }
             
         print(f"📤 [Accounts] Returning {len(result)} accounts to frontend")
         return jsonify(result)
@@ -1309,8 +1309,8 @@ def get_connected_accounts():
             {
                 "id": "fake_x_1",
                 "platform": "X (Twitter)",
-                "name": "My X Account",
-                "handle": "my_x_handle",
+                "name": "FremontFeng",
+                "handle": "FremontFeng",
                 "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=X&backgroundColor=000000",
                 "status": "active",
                 "type": "TWITTER"
@@ -1495,7 +1495,57 @@ def publish_post():
         conn.close()
         
         if not rows:
-            return jsonify({"error": "Selected account info not found, please try refreshing the page"}), 404
+            # Check for mock accounts
+            mock_rows = []
+            if 'fake_facebook_1' in account_ids:
+                mock_rows.append({
+                    "id": "fake_facebook_1",
+                    "platform": "Facebook",
+                    "name": "My Facebook Page", 
+                    "handle": "my_fb_page",
+                    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=FB&backgroundColor=1877F2",
+                    "status": "active"
+                })
+            if 'fake_x_1' in account_ids:
+                mock_rows.append({
+                    "id": "fake_x_1",
+                    "platform": "X (Twitter)",
+                    "name": "FremontFeng",
+                    "handle": "FremontFeng",
+                    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=X&backgroundColor=000000",
+                    "status": "active"
+                })
+            
+            if mock_rows:
+                # If we found mock accounts, use them
+                rows = mock_rows
+                full_account_info.update({r['id']: r for r in rows})
+            else:
+                return jsonify({"error": "Selected account info not found, please try refreshing the page"}), 404
+        else:
+            # Inject mocks if mixed selection
+             if 'fake_facebook_1' in account_ids:
+                row = {
+                    "id": "fake_facebook_1",
+                    "platform": "Facebook",
+                    "name": "My Facebook Page",
+                    "handle": "my_fb_page",
+                    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=FB&backgroundColor=1877F2",
+                    "status": "active"
+                }
+                rows.append(row)
+                full_account_info['fake_facebook_1'] = row
+             if 'fake_x_1' in account_ids:
+                row = {
+                    "id": "fake_x_1",
+                    "platform": "X (Twitter)",
+                    "name": "FremontFeng", 
+                    "handle": "FremontFeng",
+                    "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=X&backgroundColor=000000",
+                    "status": "active"
+                }
+                rows.append(row)
+                full_account_info['fake_x_1'] = row
 
         account_map = {row['id']: row['platform'].upper() for row in rows}
         target_platforms = list(set(account_map.values()))
@@ -1737,8 +1787,21 @@ def publish_post():
         print(f"URL: {url}")
         print(f"Payload Size: {len(json.dumps(payload))} bytes")
         
-        response = request_with_proxy_fallback('post', url, headers=get_headers(), json=payload)
-        result = response.json()
+        # Filter out fake accounts for API call
+        real_account_ids = [aid for aid in account_ids if not str(aid).startswith('fake_')]
+        
+        if real_account_ids:
+            payload['socialAccountIds'] = real_account_ids
+            response = request_with_proxy_fallback('post', url, headers=get_headers(), json=payload)
+            result = response.json()
+        else:
+            # All accounts are fake, mock success
+            print(f"[Publish] ⚡ Mock Publish Success for {account_ids}")
+            response = type('obj', (object,), {'status_code': 200})
+            result = {
+                "success": True, 
+                "data": {"id": "mock_publish_" + str(int(datetime.datetime.now().timestamp()))}
+            }
         
         print(f"Status Code: {response.status_code}")
         
