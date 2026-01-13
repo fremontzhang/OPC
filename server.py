@@ -1276,6 +1276,18 @@ def get_connected_accounts():
                 "status": "active",
                 "type": "FACEBOOK"
             })
+        
+        # Inject fake X account for demo consistency
+        if not any(acc['id'] == 'fake_x_1' for acc in result):
+            result.append({
+                "id": "fake_x_1",
+                "platform": "X (Twitter)",
+                "name": "My X Account",
+                "handle": "my_x_handle",
+                "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=X&backgroundColor=000000",
+                "status": "active",
+                "type": "TWITTER"
+            })
             
         print(f"📤 [Accounts] Returning {len(result)} accounts to frontend")
         return jsonify(result)
