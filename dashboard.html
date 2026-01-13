@@ -7596,7 +7596,10 @@
                         let mockRunning = agent.running_tasks || 0;
                         let mockAction = "";
 
-                        if (agent.name.includes('剪辑') || agent.name.includes('发布')) {
+                        if (agent.name.includes('发布')) {
+                            mockRunning = 20;
+                            mockAction = "正在发布：《霸道总裁》Ep.4 - sweet love...";
+                        } else if (agent.name.includes('剪辑')) {
                             mockRunning = 4;
                             mockAction = "正在发布：《霸道总裁》Ep.4 - sweet love...";
                         } else if (agent.name.includes('去重') || agent.name.includes('处理')) {
